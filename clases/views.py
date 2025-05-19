@@ -91,3 +91,6 @@ def clase_data_warehouse(request):
 
 def clase_diseno_dw_libreria(request):
     return render(request, 'clases/clase_diseno_dw_libreria.html')
+
+def clase_caso_estudio_dw(request):
+    return render(request, 'clases/clase_caso_de_Estudio_dw.html')

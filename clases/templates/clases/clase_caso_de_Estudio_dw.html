@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseñando un Data Warehouse: Caso de Estudio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        .content-wrapper { max-width: 900px; margin: 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 2rem; }
+        .page-header { text-align: center; margin-bottom: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 1.5rem; }
+        .page-header h1 { color: #007bff; font-weight: 600; font-size: 2.2rem; }
+        .topic-section { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid #f0f0f0; }
+        .topic-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .topic-title { color: #17a2b8; font-size: 1.8rem; font-weight: 600; margin-bottom: 1.5rem; }
+        details summary { cursor: pointer; color: #0d6efd; font-weight: 500; margin-top: 1rem; }
+        .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #eee; color: #6c757d; font-size: 0.9rem; text-align: center; }
+        .svg-diagrama { display: block; margin: 24px auto; background: #f4f8ff; border-radius: 8px; }
+        .actividad { background: #fffbe6; border-left: 4px solid #ffd700; padding: 10px 18px; margin: 18px 0 0 0; }
+        .preguntas { background: #f0f7e6; border-left: 4px solid #7ac142; padding: 10px 18px; margin: 18px 0 0 0; }
+        @media (max-width: 600px) { .content-wrapper { padding: 1.5rem 1rem; } .page-header h1 { font-size: 1.8rem; } .topic-title { font-size: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <div class="container content-wrapper">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Caso de Estudio DW</li>
+            </ol>
+        </nav>
+        <div class="page-header">
+            <h1>Diseñando un Data Warehouse: Caso de Estudio</h1>
+            <p class="lead">Unidad 2: Preparación de los Datos<br>Tema: Diseño Teórico de Esquemas de DW (Actividad 6)</p>
+        </div>
+        <div id="slide-container">
+            <!-- Aquí van las secciones de diapositivas adaptadas del contenido anterior -->
+            <!-- Diapositiva 1 -->
+            <section class="topic-section slide" style="display:block;">
+                <h2 class="topic-title">Diseñando un Data Warehouse: Del Caso de Estudio al Esquema</h2>
+                <ul>
+                    <li>Extracción de Conocimiento en Bases de Datos</li>
+                    <li>Unidad 2: Preparación de los Datos</li>
+                    <li>Tema: Diseño Teórico de Esquemas de DW (Actividad 6)</li>
+                </ul>
+                <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/data-1966459_1280.png" alt="Flujo de datos a DW" style="max-width: 350px; display:block; margin: 24px auto; border-radius:8px;">
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Ya entendemos qué es un Data Warehouse y los esquemas básicos (Estrella, Copo de Nieve). Hoy veremos cómo diseñar uno a partir de las necesidades de un negocio, usando un caso de estudio hipotético.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 2 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Agenda</h2>
+                <ul>
+                    <li>¿Por qué Modelado Dimensional?</li>
+                    <li>Caso de Estudio: "Librería El Saber Online"</li>
+                    <li>El Proceso de Diseño Dimensional (4 Pasos Clave)</li>
+                    <li>Aplicando el Proceso al Caso de Estudio</li>
+                    <li>Construyendo el Esquema Estrella</li>
+                    <li>Considerando un Esquema Copo de Nieve</li>
+                    <li>Conclusiones y Actividad</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Seguiremos una metodología estructurada para pasar de los requisitos del negocio a un diseño de base de datos analítica.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 3 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">¿Por Qué Modelado Dimensional?</h2>
+                <ul>
+                    <li><b>Optimizado para Consultas Analíticas (OLAP):</b> Rápido y eficiente para preguntas complejas.</li>
+                    <li><b>Intuitivo para Usuarios de Negocio:</b> Refleja cómo piensan (métricas por categorías).</li>
+                    <li><b>Facilita Herramientas de BI:</b> Plataformas como Power BI, Tableau, etc.</li>
+                    <li><b>Consistencia:</b> Proporciona una visión integrada de los datos.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Recordatorio de por qué invertimos tiempo en diseñar estos modelos específicos para el análisis.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 4 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Caso de Estudio: "Librería El Saber Online"</h2>
+                <ul>
+                    <li><b>Negocio:</b> Venta de libros físicos y electrónicos en línea.</li>
+                    <li><b>Objetivo Principal:</b> Analizar el rendimiento de las ventas.</li>
+                    <li><b>Preguntas Clave del Negocio:</b>
+                        <ul>
+                            <li>¿Cuáles son nuestras ventas totales (cantidad e importe) por día, mes, año?</li>
+                            <li>¿Qué libros (título, autor, género) se venden más?</li>
+                            <li>¿Qué tipos de clientes (ubicación, antigüedad) compran más?</li>
+                            <li>¿Cómo varían las ventas por formato del libro (físico/electrónico)?</li>
+                            <li>¿Hay patrones estacionales en las ventas?</li>
+                        </ul>
+                    </li>
+                    <li><b>Fuentes de Datos (Hipotéticas):</b> Sistema de Ventas, Detalle de Órdenes, Catálogo de Productos, Base de Datos de Clientes.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Este es nuestro escenario. Una tienda online simple. Las preguntas clave nos dan las primeras pistas sobre qué información necesitamos organizar en nuestro Data Warehouse.</li>
+                        <li>Es fundamental empezar por entender qué quiere saber el negocio.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 5 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">El Proceso de Diseño Dimensional (4 Pasos Clave - Kimball)</h2>
+                <ol>
+                    <li><b>Seleccionar el Proceso de Negocio:</b> ¿Qué proceso queremos medir? (Ej: Ventas, Inventario, Envíos, Clics web).</li>
+                    <li><b>Declarar el Grano (Grain):</b> ¿Qué representa exactamente una fila en la tabla de hechos? (Ej: "Una línea de producto en una orden de venta").</li>
+                    <li><b>Identificar las Dimensiones:</b> ¿Qué contexto describe cada evento del proceso? (Quién, Qué, Cuándo, Dónde, Por qué, Cómo).</li>
+                    <li><b>Identificar los Hechos (Facts):</b> ¿Qué métricas numéricas queremos medir para cada evento en el grano definido?</li>
+                </ol>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Esta es la metodología que seguiremos, propuesta por Ralph Kimball, uno de los padres del modelado dimensional.</li>
+                        <li>El paso 2, definir el grano, es CRUCIAL. Determina el nivel de detalle de todo el modelo.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 6 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Aplicando el Proceso - Paso 1: Proceso de Negocio</h2>
+                <ul>
+                    <li><b>Caso "Librería El Saber Online":</b> El proceso de negocio principal que queremos analizar, basado en las preguntas clave, es claramente: <b>Ventas de Libros</b></li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Este paso suele ser el más sencillo. Identificamos la actividad central que genera las métricas que nos interesan.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 7 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Aplicando el Proceso - Paso 2: Declarar el Grano</h2>
+                <ul>
+                    <li><b>Grano Propuesto:</b> Una fila en la tabla de hechos representará una línea de producto individual dentro de una orden de venta.</li>
+                    <li>Esto nos permite analizar qué producto específico se vendió, en qué cantidad, en qué orden (y por lo tanto, a qué cliente y en qué fecha).</li>
+                    <li><b>¿Por qué no "una orden completa"?</b> Porque perderíamos el detalle de qué productos específicos se vendieron en cada orden.</li>
+                    <li><b>¿Por qué no "una venta diaria por producto"?</b> Porque perderíamos la información del cliente y la orden específica.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Definir el grano correctamente es esencial. Si el grano es 'una línea de producto por orden', entonces nuestra tabla de hechos tendrá potencialmente muchas filas (una por cada libro en cada orden).</li>
+                        <li>¿Qué pasaría si eligiéramos el grano como 'una orden completa'? (Respuesta: No podríamos saber qué libros individuales se vendieron más).</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 8 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Aplicando el Proceso - Paso 3: Identificar las Dimensiones</h2>
+                <ul>
+                    <li><b>¿Cuándo ocurrió la venta?</b> → Dimensión Tiempo (DimDate)
+                        <ul>
+                            <li>Atributos: DateKey, Fecha Completa, Día, Mes, Año, Trimestre, Día de la Semana, ¿Es Fin de Semana?, etc.</li>
+                        </ul>
+                    </li>
+                    <li><b>¿Qué producto se vendió?</b> → Dimensión Producto (DimProduct)
+                        <ul>
+                            <li>Atributos: ProductKey, ProductID (clave natural), Título, Autor, Género, Editorial, Formato.</li>
+                        </ul>
+                    </li>
+                    <li><b>¿Quién compró el producto?</b> → Dimensión Cliente (DimCustomer)
+                        <ul>
+                            <li>Atributos: CustomerKey, CustomerID (clave natural), Nombre Completo, Ciudad, Estado, País, Fecha de Registro.</li>
+                        </ul>
+                    </li>
+                    <li><b>(Opcional) ¿A dónde se envió?</b> → Podría ser parte de DimCustomer o una Dimensión Geografía (DimGeography) separada si la dirección de envío es importante y diferente a la del cliente. Por simplicidad, la incluiremos en Cliente por ahora.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Para cada dimensión, pensamos en los atributos relevantes que nos permitirán filtrar y agrupar los hechos.</li>
+                        <li>Noten el uso de Key (ej. ProductKey). Estas son claves subrogadas, números simples generados en el DW, que son mejores como claves primarias/foráneas que las claves naturales (como ProductID) que pueden cambiar o ser complejas.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 9 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Aplicando el Proceso - Paso 4: Identificar los Hechos</h2>
+                <ul>
+                    <li><b>Cantidad Vendida:</b> (Quantity del Detalle de Órdenes) → QuantitySold</li>
+                    <li><b>Importe de Venta por Línea:</b> (Quantity * PricePerUnit) → LineSaleAmount</li>
+                    <li><b>(Opcional) Costo del Producto:</b> Si tuviéramos el costo en el catálogo, podríamos calcular LineProfitAmount.</li>
+                    <li><b>(Opcional) Descuento Aplicado:</b> Si hubiera promociones.</li>
+                </ul>
+                <p>Estos serán las medidas en nuestra tabla de hechos (FactSales). Además, la tabla de hechos necesitará las claves foráneas para conectarse a las dimensiones identificadas: DateKey, ProductKey, CustomerKey.</p>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Es importante que los hechos correspondan al grano definido. QuantitySold y LineSaleAmount se refieren a esa línea de producto en esa orden.</li>
+                        <li>La tabla de hechos es principalmente numérica (claves y medidas).</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 10: Esquema Estrella -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Construyendo el Esquema Estrella</h2>
+                <ul>
+                    <li><b>Tabla Central:</b> FactSales
+                        <ul>
+                            <li>DateKey (FK)</li>
+                            <li>ProductKey (FK)</li>
+                            <li>CustomerKey (FK)</li>
+                            <li>QuantitySold (Medida)</li>
+                            <li>LineSaleAmount (Medida)</li>
+                            <li>(Opcional: OrderID como "Dimensión Degenerada")</li>
+                        </ul>
+                    </li>
+                    <li><b>Dimensiones Conectadas Directamente:</b>
+                        <ul>
+                            <li>DimDate (DateKey PK, Fecha, Día, Mes, Año, DíaSemana...)</li>
+                            <li>DimProduct (ProductKey PK, ProductID, Título, Autor, Género, Editorial, Formato...)</li>
+                            <li>DimCustomer (CustomerKey PK, CustomerID, Nombre, Ciudad, Estado, País...)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div style="text-align:center; margin-top:1.5rem;">
+                  <svg width="650" height="320">
+                    <!-- Tabla de Hechos -->
+                    <rect x="275" y="140" width="110" height="50" fill="#fffde7" stroke="#fbc02d" rx="10"/>
+                    <text x="330" y="170" font-size="16" text-anchor="middle" font-weight="bold">FactSales</text>
+                    <!-- Dimensiones -->
+                    <rect x="60" y="40" width="110" height="45" fill="#e3f2fd" stroke="#1976d2" rx="10"/>
+                    <text x="115" y="70" font-size="14" text-anchor="middle">DimDate</text>
+                    <rect x="60" y="230" width="110" height="45" fill="#e3f2fd" stroke="#1976d2" rx="10"/>
+                    <text x="115" y="260" font-size="14" text-anchor="middle">DimProduct</text>
+                    <rect x="480" y="40" width="110" height="45" fill="#e3f2fd" stroke="#1976d2" rx="10"/>
+                    <text x="535" y="70" font-size="14" text-anchor="middle">DimCustomer</text>
+                    <!-- Flechas -->
+                    <line x1="275" y1="165" x2="170" y2="62" stroke="#fbc02d" marker-end="url(#arrow)"/>
+                    <line x1="275" y1="195" x2="170" y2="252" stroke="#fbc02d" marker-end="url(#arrow)"/>
+                    <line x1="385" y1="165" x2="480" y2="62" stroke="#fbc02d" marker-end="url(#arrow)"/>
+                    <!-- Definición de flecha -->
+                    <defs>
+                      <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#fbc02d"/>
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Así se vería nuestro diseño aplicando el esquema estrella. Simple, directo.</li>
+                        <li>La tabla de hechos en el centro, rodeada por las dimensiones que la describen.</li>
+                        <li>Esto es desnormalización: toda la información relevante está en las dimensiones.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 11: Esquema Copo de Nieve -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Considerando un Esquema Copo de Nieve</h2>
+                <ul>
+                    <li><b>¿Podríamos normalizar alguna dimensión?</b></li>
+                    <li><b>Ejemplo: Dimensión Producto.</b>
+                        <ul>
+                            <li>DimProduct (ProductKey PK, ProductID, Título, Formato, AuthorKey FK, GenreKey FK, PublisherKey FK)</li>
+                            <li>DimAuthor (AuthorKey PK, AuthorName)</li>
+                            <li>DimGenre (GenreKey PK, GenreName)</li>
+                            <li>DimPublisher (PublisherKey PK, PublisherName)</li>
+                        </ul>
+                    </li>
+                    <li><b>Ejemplo: Dimensión Cliente/Geografía.</b>
+                        <ul>
+                            <li>DimCustomer (CustomerKey PK, CustomerID, Nombre, CityKey FK)</li>
+                            <li>DimCity (CityKey PK, CityName, StateKey FK)</li>
+                            <li>DimState (StateKey PK, StateName, CountryKey FK)</li>
+                            <li>DimCountry (CountryKey PK, CountryName)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div style="text-align:center; margin-top:1.5rem;">
+                  <svg width="800" height="400">
+                    <!-- Tabla de Hechos -->
+                    <rect x="350" y="180" width="120" height="50" fill="#fffde7" stroke="#fbc02d" rx="10"/>
+                    <text x="410" y="210" font-size="16" text-anchor="middle" font-weight="bold">FactSales</text>
+                    <!-- Dimensiones principales -->
+                    <rect x="100" y="70" width="120" height="45" fill="#e3f2fd" stroke="#1976d2" rx="10"/>
+                    <text x="160" y="100" font-size="14" text-anchor="middle">DimProduct</text>
+                    <rect x="100" y="300" width="120" height="45" fill="#e3f2fd" stroke="#1976d2" rx="10"/>
+                    <text x="160" y="330" font-size="14" text-anchor="middle">DimCustomer</text>
+                    <rect x="600" y="70" width="120" height="45" fill="#e3f2fd" stroke="#1976d2" rx="10"/>
+                    <text x="660" y="100" font-size="14" text-anchor="middle">DimDate</text>
+                    <!-- Subdimensiones Producto -->
+                    <rect x="30" y="20" width="80" height="35" fill="#f3e5f5" stroke="#8e24aa" rx="8"/>
+                    <text x="70" y="42" font-size="13" text-anchor="middle">DimAuthor</text>
+                    <rect x="30" y="120" width="80" height="35" fill="#f3e5f5" stroke="#8e24aa" rx="8"/>
+                    <text x="70" y="142" font-size="13" text-anchor="middle">DimGenre</text>
+                    <rect x="30" y="220" width="80" height="35" fill="#f3e5f5" stroke="#8e24aa" rx="8"/>
+                    <text x="70" y="242" font-size="13" text-anchor="middle">DimPublisher</text>
+                    <!-- Subdimensiones Cliente/Geografía -->
+                    <rect x="100" y="370" width="80" height="35" fill="#ffe0b2" stroke="#ef6c00" rx="8"/>
+                    <text x="140" y="392" font-size="13" text-anchor="middle">DimCity</text>
+                    <rect x="200" y="370" width="80" height="35" fill="#ffe0b2" stroke="#ef6c00" rx="8"/>
+                    <text x="240" y="392" font-size="13" text-anchor="middle">DimState</text>
+                    <rect x="300" y="370" width="80" height="35" fill="#ffe0b2" stroke="#ef6c00" rx="8"/>
+                    <text x="340" y="392" font-size="13" text-anchor="middle">DimCountry</text>
+                    <!-- Flechas principales -->
+                    <line x1="350" y1="205" x2="220" y2="92" stroke="#fbc02d" marker-end="url(#arrow2)"/>
+                    <line x1="350" y1="235" x2="220" y2="322" stroke="#fbc02d" marker-end="url(#arrow2)"/>
+                    <line x1="470" y1="205" x2="600" y2="92" stroke="#fbc02d" marker-end="url(#arrow2)"/>
+                    <!-- Flechas subdimensiones producto -->
+                    <line x1="100" y1="92" x2="110" y2="37" stroke="#8e24aa" marker-end="url(#arrow3)"/>
+                    <line x1="100" y1="92" x2="110" y2="137" stroke="#8e24aa" marker-end="url(#arrow3)"/>
+                    <line x1="100" y1="92" x2="110" y2="237" stroke="#8e24aa" marker-end="url(#arrow3)"/>
+                    <!-- Flechas subdimensiones cliente/geografía -->
+                    <line x1="160" y1="345" x2="140" y2="370" stroke="#ef6c00" marker-end="url(#arrow4)"/>
+                    <line x1="160" y1="345" x2="240" y2="370" stroke="#ef6c00" marker-end="url(#arrow4)"/>
+                    <line x1="160" y1="345" x2="340" y2="370" stroke="#ef6c00" marker-end="url(#arrow4)"/>
+                    <!-- Definición de flechas -->
+                    <defs>
+                      <marker id="arrow2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#fbc02d"/>
+                      </marker>
+                      <marker id="arrow3" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#8e24aa"/>
+                      </marker>
+                      <marker id="arrow4" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#ef6c00"/>
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Si quisiéramos reducir la redundancia (ej. no repetir el nombre del autor para cada libro que escribió), podríamos normalizar las dimensiones.</li>
+                        <li>Esto crea más tablas y requiere más joins en las consultas, pero puede ahorrar espacio y facilitar el mantenimiento si los atributos de las dimensiones cambian a menudo.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 12 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">¿Estrella o Copo de Nieve para "El Saber Online"?</h2>
+                <ul>
+                    <li><b>Argumentos para Estrella:</b>
+                        <ul>
+                            <li>Más simple de entender y consultar.</li>
+                            <li>Generalmente más rápido para herramientas de BI.</li>
+                            <li>La redundancia en dimensiones como Producto o Cliente no suele ser un problema crítico en DW modernos.</li>
+                        </ul>
+                    </li>
+                    <li><b>Argumentos para Copo de Nieve:</b>
+                        <ul>
+                            <li>Si las dimensiones fueran enormes (millones de autores, miles de géneros) podría ahorrar espacio significativo.</li>
+                            <li>Si la estructura jerárquica (ej. Geografía) es muy importante y se consulta a menudo por separado.</li>
+                        </ul>
+                    </li>
+                    <li><b>Recomendación Inicial:</b> Para la mayoría de los casos como este, el Esquema Estrella suele ser el punto de partida preferido por su simplicidad y rendimiento.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Para nuestro caso hipotético, un esquema estrella probablemente sería suficiente y más práctico.</li>
+                        <li>La elección final en un proyecto real dependería de análisis de rendimiento, volumen de datos y patrones de consulta específicos.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 13 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Conclusiones del Diseño</h2>
+                <ul>
+                    <li>Hemos seguido un proceso de 4 pasos para diseñar un modelo dimensional para las ventas de la librería.</li>
+                    <li>Definimos el proceso (Ventas) y el grano (Línea de producto por orden).</li>
+                    <li>Identificamos dimensiones clave (Tiempo, Producto, Cliente) y sus atributos.</li>
+                    <li>Identificamos hechos medibles (Cantidad, Monto).</li>
+                    <li>Esbozamos un Esquema Estrella y consideramos la alternativa Copo de Nieve.</li>
+                    <li>Este diseño teórico ahora guía la implementación del ETL y la estructura del DW.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Este proceso nos da un mapa claro de cómo organizar los datos para el análisis.</li>
+                        <li>Aunque no lo implementaremos físicamente en este curso, entender el diseño es fundamental.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 14 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">¡Su Turno! La Actividad</h2>
+                <div class="actividad">
+                    <b>Actividad 6:</b> Diseñar un esquema teórico de Data Warehouse.<br>
+                    <b>Tarea:</b> Aplicarán este mismo proceso de 4 pasos a un nuevo caso de estudio (o a su dataset elegido de datos.gob.mx si ya lo tienen y es adecuado).<br>
+                    <b>Entregable:</b> Un diagrama del esquema (Estrella o Copo de Nieve, justificado) y una descripción de las tablas de hechos y dimensiones, el grano, etc.<br>
+                    <i>(Instrucciones detalladas se proporcionarán por separado).</i>
+                </div>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Ahora es su oportunidad de practicar este proceso de diseño.</li>
+                        <li>Presten atención a las instrucciones específicas de la actividad que realizaremos a continuación.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 15 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Preguntas y Respuestas</h2>
+                <div class="preguntas">
+                    <ul>
+                        <li>¿Preguntas sobre el proceso de diseño?</li>
+                        <li>¿Dudas sobre la identificación de hechos o dimensiones en el caso de la librería?</li>
+                        <li>¿Algo no claro sobre los esquemas resultantes?</li>
+                    </ul>
+                </div>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Aclarar cualquier duda sobre el proceso antes de que los estudiantes comiencen su propia actividad de diseño.</li>
+                    </ul>
+                </details>
+            </section>
+            <!-- Diapositiva 16 -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Fuentes Consultadas</h2>
+                <ul>
+                    <li>Kimball, R., & Ross, M. (2013). The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling (3rd ed.). Wiley.</li>
+                    <li>Universidad Tecnológica Emiliano Zapata del Estado de Morelos (UTEZ). (2024). FO-UTEZ-DD-02 Rev. 08 Agosto 2024, Secuencias Didácticas de Asignatura: Extracción de Conocimiento en Bases de Datos. Morelos, México.</li>
+                    <li>(Opcional) Añadir enlaces a artículos o blogs que expliquen bien el modelado dimensional si se usaron como referencia adicional.</li>
+                </ul>
+            </section>
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <button id="prevBtn" class="btn btn-outline-primary" disabled>Anterior</button>
+            <button id="nextBtn" class="btn btn-primary">Siguiente</button>
+        </div>
+        <footer class="footer">
+            <small>
+                Fuentes consultadas:<br>
+                Kimball & Ross (2013), UTEZ (2024), y otros recursos de modelado dimensional.
+            </small>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.style.display = (i === idx) ? 'block' : 'none';
+            });
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === slides.length - 1;
+        }
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
