@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 1: Carga y Exploración de Datos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"/>
+    <!-- Consider adding a link for Fira Code font if not locally available -->
+    <!-- e.g., <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet"> -->
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+            line-height: 1.6;
+            color: #333;
+        }
+        .content-wrapper { /* Renamed from slide-container */
+            max-width: 900px; /* Slightly narrower for better readability */
+            margin: 2rem auto;
+            background: #fff;
+            border-radius: 8px; /* Softer radius */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Softer shadow */
+            padding: 2rem;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+        .page-header h1 {
+            color: #007bff; /* Bootstrap primary blue */
+            font-weight: 600;
+            font-size: 2.2rem;
+        }
+        .back-to-home { /* Style for the link */
+            font-size: 0.9rem;
+        }
+
+        .topic-section { /* New style for sections */
+            margin-bottom: 3rem; /* Space between sections */
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .topic-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .topic-title { /* Was slide-title, now h2 */
+            color: #17a2b8; /* Bootstrap info color */
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            border-radius: 6px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-family: 'Fira Code', 'Consolas', 'Share Tech Mono', monospace;
+            width: 100%;
+            overflow-y: hidden; /* Key for auto-height */
+            resize: none;
+            box-sizing: border-box;
+            border: 1px solid #3d424a;
+            line-height: 1.5;
+        }
+        .output-block {
+            background: #f7f7f7;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 1rem 1.5rem;
+            font-size: 0.95rem;
+            font-family: 'Fira Code', 'Consolas', 'Share Tech Mono', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            width: 100%;
+            line-height: 1.5;
+        }
+        .output-block table {
+            font-size: 0.9rem;
+            width: 100% !important; /* Ensure DataTables take full width */
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            font-weight: 500;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1.5rem 1rem;
+                margin: 1rem auto;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .topic-title {
+                font-size: 1.5rem;
+            }
+            .code-block, .output-block {
+                font-size: 0.9rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+        @media (max-width: 576px) {
+            .content-wrapper {
+                padding: 1rem 0.5rem;
+            }
+             .page-header h1 {
+                font-size: 1.6rem;
+            }
+            .topic-title {
+                font-size: 1.3rem;
+            }
+            .code-block, .output-block {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
+            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        window.onload = function() {
+            document.querySelectorAll('.code-block').forEach(function(textarea) {
+                function autoResize() {
+                    this.style.height = 'auto'; // Reset height to shrink if needed
+                    this.style.height = (this.scrollHeight) + 'px'; // Set to content height
+                }
+                textarea.addEventListener('input', autoResize, false);
+                // Call autoResize once to set initial height
+                autoResize.call(textarea);
+            });
+        };
+
+        function runCode(btn, codeId, outId) {
+            const code = document.getElementById(codeId).value;
+            const out = document.getElementById(outId);
+            out.innerHTML = '<div class="d-flex align-items-center"><strong class="text-secondary">Ejecutando...</strong><div class="spinner-border spinner-border-sm ms-auto text-secondary" role="status" aria-hidden="true"></div></div>'; // Added spinner
+
+            // Attempt to get CSRF token if this is a Django template context
+            let csrfToken = '';
+            const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+            if (csrfInput) {
+                csrfToken = csrfInput.value;
+            }
+
+            fetch('/ejecutar_codigo/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add CSRF token header if found (common for Django)
+                    ...(csrfToken && {'X-CSRFToken': csrfToken})
+                },
+                body: JSON.stringify({code: code})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(`Error HTTP ${response.status}: ${text || response.statusText}`) });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.output && (data.output.includes('┌') && data.output.includes('┐')) || (data.output.includes('|--') && data.output.includes('|-')) || data.output.includes('<th>')) { // Broader check for table-like structures
+                    // Destroy existing DataTable if it exists
+                    if ($.fn.DataTable.isDataTable($(out).find('table'))) {
+                        $(out).find('table').DataTable().destroy();
+                    }
+                    out.innerHTML = tabulateToHTML(data.output); // tabulateToHTML will handle HTML escaping
+                    $(out).find('table').DataTable({
+                        paging: false,
+                        searching: false,
+                        info: false,
+                        responsive: true,
+                        ordering: false,
+                        autoWidth: false // Prevent overly wide tables
+                    });
+                } else {
+                    // For non-table output, escape HTML to prevent XSS
+                    const pre = document.createElement('pre');
+                    pre.textContent = data.output;
+                    out.innerHTML = ''; // Clear previous content
+                    out.appendChild(pre);
+                }
+            })
+            .catch(e => {
+                out.textContent = 'Error al ejecutar: ' + e.message;
+                console.error("Fetch error:", e);
+            });
+        }
+
+        function tabulateToHTML(tabStr) {
+            // If the input is already HTML (e.g. from pandas.to_html()), use it directly
+            if (tabStr.trim().startsWith('<table')) {
+                return tabStr;
+            }
+
+            const lines = tabStr.split('\n').filter(l => l.trim().length > 0);
+            // Basic check if it's likely a structured table, otherwise preformat
+            if (lines.length < 1 || !lines.some(l => l.includes('|'))) {
+                 return '<pre>' + tabStr.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</pre>';
+            }
+
+            let html = '<table class="table table-bordered table-striped table-sm w-100">';
+            let headerCellsCount = 0;
+
+            // Try to find a header line (often underlined or first non-border line)
+            let headerLineIndex = lines.findIndex(line => !line.match(/^[\┌\└\├]/) && line.includes('|') && !line.match(/^\s*\|?-{2,}/));
+            if (headerLineIndex === -1) { // If no clear header, try first line that's not a top border
+                headerLineIndex = lines.findIndex(line => !line.trim().startsWith('┌') && line.includes('|'));
+            }
+            if (headerLineIndex === -1) headerLineIndex = 0; // Default to first line
+
+            if (headerLineIndex < lines.length && lines[headerLineIndex].includes('|')) {
+                const headers = lines[headerLineIndex].split('|').map(h => h.trim());
+                // Filter out empty strings that result from leading/trailing pipes for table borders
+                const actualHeaders = headers.filter((h, idx) => !( (idx === 0 || idx === headers.length - 1) && h === '' ) );
+                if (actualHeaders.length > 0) {
+                    html += '<thead><tr>' + actualHeaders.map(h => `<th>${h.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</th>`).join('') + '</tr></thead>';
+                    headerCellsCount = actualHeaders.length;
+                }
+            }
+            
+            html += '<tbody>';
+            for (let i = headerLineIndex + 1; i < lines.length; i++) {
+                const line = lines[i];
+                // Skip lines that look like horizontal rules or table borders
+                if (line.match(/^([\└\├\┌][\─\┴\┬\┼]*)+[\┘\┐\┤]?$/)) continue; // More robust border skip
+                if (line.trim().startsWith('└') || line.trim().startsWith('┌')) continue;
+                if (line.match(/^\s*\|?-{3,}/) && line.includes('|')) continue; // Skip ---|--- type separators
+
+                if (!line.includes('|')) continue; // Skip lines not part of the table data
+
+                const cells = line.split('|').map(c => c.trim());
+                let relevantCells = cells;
+                 // If table is framed by | .... |, remove empty first and last cells
+                if (cells.length > 1 && cells[0] === "" && cells[cells.length-1] === "") {
+                    relevantCells = cells.slice(1, -1);
+                }
+                
+                if (relevantCells.length > 0 && (headerCellsCount === 0 || relevantCells.length === headerCellsCount)) {
+                     html += '<tr>' + relevantCells.map(c => `<td>${c.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</td>`).join('') + '</tr>';
+                } else if (relevantCells.length > 0 && headerCellsCount > 0 && relevantCells.length > headerCellsCount) { // Handle cases where data has more pipes (e.g. internal |)
+                     html += '<tr>' + relevantCells.slice(0, headerCellsCount).map(c => `<td>${c.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</td>`).join('') + '</tr>';
+                } else if (relevantCells.length > 0 && headerCellsCount === 0) { // Table without detected headers
+                     html += '<tr>' + relevantCells.map(c => `<td>${c.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</td>`).join('') + '</tr>';
+                }
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+    </script>
+</head>
+<body>
+    <div class="container content-wrapper">
+        <h1 class="mt-4 mb-3">Carga y Exploración Inicial de Datos con Pandas</h1>
+        <p class="lead">En esta clase aprenderás a cargar, explorar y analizar datos usando Python y Pandas. A continuación, se presentan las funciones y técnicas más importantes para la exploración inicial de un DataFrame.</p>
+
+        <!-- 1. Carga de Datos y Visualización Básica -->
+        <section class="topic-section" id="carga-datos">
+            <h2 class="topic-title">1. Carga de Datos</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Carga datos desde un archivo CSV a un DataFrame de Pandas.<br>
+                <b>¿Cómo se utiliza?</b> <code>pd.read_csv(filepath, sep=',', header='infer', ...)</code><br>
+                <b>Parámetros principales:</b> <br>
+                <ul>
+                    <li><b>filepath</b>: Ruta al archivo CSV.</li>
+                    <li><b>sep</b>: Separador de columnas (por defecto <code>,</code>).</li>
+                    <li><b>header</b>: Fila que contiene los nombres de las columnas (por defecto la primera).</li>
+                </ul>
+            </div>
+            <textarea class="code-block" id="code1" rows="2">import pandas as pd
+df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code1', 'out1')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out1"></div>
+            <p class="mt-2"><small>Utiliza <code>pd.read_csv()</code> para cargar archivos CSV en un DataFrame.</small></p>
+        </section>
+
+        <section class="topic-section" id="primeras-filas">
+            <h2 class="topic-title">2. Primeras y Últimas Filas</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Muestra las primeras o últimas filas del DataFrame.<br>
+                <b>¿Cómo se utiliza?</b> <code>df.head(n=5)</code> o <code>df.tail(n=5)</code><br>
+                <b>Parámetros principales:</b> <br>
+                <ul>
+                    <li><b>n</b>: Número de filas a mostrar (por defecto 5).</li>
+                </ul>
+            </div>
+            <textarea class="code-block" id="code2" rows="2">df.head()</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code2', 'out2')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out2"></div>
+            <textarea class="code-block mt-2" id="code2b" rows="2">df.tail()</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code2b', 'out2b')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out2b"></div>
+            <p class="mt-2"><small><code>df.head()</code> muestra las primeras 5 filas y <code>df.tail()</code> las últimas 5 filas del DataFrame.</small></p>
+        </section>
+
+        <section class="topic-section" id="dimensiones-df">
+            <h2 class="topic-title">3. Dimensiones del DataFrame</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Devuelve una tupla con el número de filas y columnas del DataFrame.<br>
+                <b>¿Cómo se utiliza?</b> <code>df.shape</code><br>
+                <b>Parámetros:</b> No recibe parámetros.
+            </div>
+            <textarea class="code-block" id="code3" rows="2">df.shape</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code3', 'out3')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out3"></div>
+            <p class="mt-2"><small>Devuelve una tupla: <code>(número_de_filas, número_de_columnas)</code>.</small></p>
+        </section>
+
+        <section class="topic-section" id="info-general">
+            <h2 class="topic-title">4. Información General</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Muestra información general del DataFrame: número de filas, columnas, tipos de datos y valores nulos.<br>
+                <b>¿Cómo se utiliza?</b> <code>df.info()</code><br>
+                <b>Parámetros principales:</b>
+                <ul>
+                    <li><b>memory_usage</b>: Muestra el uso de memoria (por defecto <code>True</code>).</li>
+                    <li><b>verbose</b>: Muestra información detallada (por defecto <code>None</code>).</li>
+                </ul>
+            </div>
+            <textarea class="code-block" id="code4" rows="2">df.info()</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code4', 'out4')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out4"></div>
+        </section>
+
+        <section class="topic-section" id="estadisticas-descriptivas">
+            <h2 class="topic-title">5. Estadísticas Descriptivas</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Genera estadísticas descriptivas de las columnas numéricas (o de todas si se usa <code>include='all'</code>).<br>
+                <b>¿Cómo se utiliza?</b> <code>df.describe(include=None)</code><br>
+                <b>Parámetros principales:</b>
+                <ul>
+                    <li><b>include</b>: Tipos de datos a incluir (<code>'all'</code>, <code>['object']</code>, etc.).</li>
+                    <li><b>percentiles</b>: Lista de percentiles a mostrar.</li>
+                </ul>
+            </div>
+            <textarea class="code-block" id="code5" rows="2">df.describe(include='all')</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code5', 'out5')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out5"></div>
+        </section>
+
+        <section class="topic-section" id="nombres-tipos-columnas">
+            <h2 class="topic-title">6. Nombres y Tipos de Columnas</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> <code>df.columns</code> lista los nombres de las columnas y <code>df.dtypes</code> muestra el tipo de dato de cada columna.<br>
+                <b>¿Cómo se utiliza?</b> <code>df.columns</code> y <code>df.dtypes</code><br>
+                <b>Parámetros:</b> No reciben parámetros.
+            </div>
+            <textarea class="code-block" id="code6" rows="4">print("Nombres de columnas:")
+print(list(df.columns))
+print("\nTipos de datos por columna:")
+print(df.dtypes)</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code6', 'out6')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out6"></div>
+        </section>
+
+        <!-- 2. Selección y Filtrado de Datos -->
+        <section class="topic-section" id="seleccion-columnas">
+            <h2 class="topic-title">7. Selección de Columnas</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Selecciona una o varias columnas del DataFrame.<br>
+                <b>¿Cómo se utiliza?</b> <code>df['columna']</code> o <code>df[['col1', 'col2']]</code><br>
+                <b>Parámetros:</b> Nombre(s) de columna(s) como string o lista de strings.
+            </div>
+            <textarea class="code-block" id="code7" rows="2">df['Nombre']</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code7', 'out7')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out7"></div>
+            <textarea class="code-block mt-2" id="code7b" rows="2">df[['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code7b', 'out7b')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out7b"></div>
+            <p class="mt-2"><small>Selecciona una o varias columnas del DataFrame.</small></p>
+        </section>
+
+        <section class="topic-section" id="filtrado-simple">
+            <h2 class="topic-title">8. Filtrado de Filas (Condiciones Simples)</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Filtra filas según una condición booleana.<br>
+                <b>¿Cómo se utiliza?</b> <code>df[condición]</code><br>
+                <b>Parámetros:</b> Condición booleana sobre columnas.
+            </div>
+            <textarea class="code-block" id="code8" rows="2">df[df['Pais'] == 'Mexico']</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code8', 'out8')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out8"></div>
+            <p class="mt-2"><small>Filtra filas donde la columna <code>Pais</code> es igual a "Mexico".</small></p>
+        </section>
+
+        <section class="topic-section" id="filtrado-multiple">
+            <h2 class="topic-title">9. Filtrado de Filas (Condiciones Múltiples)</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Filtra filas usando múltiples condiciones (AND, OR).<br>
+                <b>¿Cómo se utiliza?</b> <code>df[(cond1) & (cond2)]</code><br>
+                <b>Parámetros:</b> Condiciones booleanas combinadas con <code>&</code> (AND) o <code>|</code> (OR).
+            </div>
+            <textarea class="code-block" id="code9" rows="2">df[(df['Pais'] == 'Mexico') & (df['Activo'] == 'Si')]</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code9', 'out9')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out9"></div>
+            <p class="mt-2"><small>Filtra filas donde <code>Pais</code> es "Mexico" y <code>Activo</code> es "Si".</small></p>
+        </section>
+
+        <section class="topic-section" id="calculo-resumen">
+            <h2 class="topic-title">10. Cálculo y Resumen Estadístico</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Calcula el promedio de una columna numérica.<br>
+                <b>¿Cómo se utiliza?</b> <code>df['columna'].mean()</code><br>
+                <b>Parámetros:</b> No recibe parámetros (aplicado sobre una columna numérica).
+            </div>
+            <textarea class="code-block" id="code10" rows="2">df['TotalGastado'].mean()</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code10', 'out10')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out10"></div>
+            <p class="mt-2"><small>Calcula el promedio de la columna <code>TotalGastado</code>.</small></p>
+        </section>
+
+        <section class="topic-section" id="seleccion-loc">
+            <h2 class="topic-title">11. Selección Usando <code>.loc</code> (por etiquetas)</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Selecciona filas y columnas por etiquetas (nombres).<br>
+                <b>¿Cómo se utiliza?</b> <code>df.loc[fila_inicio:fila_fin, ['col1', 'col2']]</code><br>
+                <b>Parámetros principales:</b> Índices de filas y nombres de columnas.
+            </div>
+            <textarea class="code-block" id="code11" rows="2">df.loc[0:2, ['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code11', 'out11')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out11"></div>
+            <p class="mt-2"><small>Selecciona filas por índice y columnas por nombre usando <code>.loc</code>.</small></p>
+        </section>
+
+        <section class="topic-section" id="seleccion-iloc">
+            <h2 class="topic-title">12. Selección Usando <code>.iloc</code> (por posición)</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Selecciona filas y columnas por posición numérica.<br>
+                <b>¿Cómo se utiliza?</b> <code>df.iloc[filas, columnas]</code><br>
+                <b>Parámetros principales:</b> Rangos o listas de posiciones de filas y columnas.
+            </div>
+            <textarea class="code-block" id="code12" rows="2">df.iloc[0:3, 1:4]</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code12', 'out12')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out12"></div>
+            <p class="mt-2"><small>Selecciona filas y columnas por posición numérica usando <code>.iloc</code>.</small></p>
+        </section>
+
+        <section class="topic-section" id="ordenamiento">
+            <h2 class="topic-title">13. Ordenamiento de Datos</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Ordena el DataFrame por los valores de una o más columnas.<br>
+                <b>¿Cómo se utiliza?</b> <code>df.sort_values(by='columna', ascending=True)</code><br>
+                <b>Parámetros principales:</b>
+                <ul>
+                    <li><b>by</b>: Nombre(s) de columna(s) para ordenar.</li>
+                    <li><b>ascending</b>: Orden ascendente (<code>True</code>) o descendente (<code>False</code>).</li>
+                </ul>
+            </div>
+            <textarea class="code-block" id="code13" rows="2">df.sort_values(by='TotalGastado', ascending=False)</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code13', 'out13')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out13"></div>
+            <p class="mt-2"><small>Ordena el DataFrame por la columna <code>TotalGastado</code> de mayor a menor.</small></p>
+        </section>
+
+        <section class="topic-section" id="agrupacion">
+            <h2 class="topic-title">14. Agrupación Básica con <code>.groupby()</code></h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Agrupa el DataFrame por una o más columnas y permite aplicar funciones de agregación.<br>
+                <b>¿Cómo se utiliza?</b> <code>df.groupby('columna')['otra_col'].mean()</code><br>
+                <b>Parámetros principales:</b>
+                <ul>
+                    <li>Columnas para agrupar.</li>
+                    <li>Función de agregación (<code>mean()</code>, <code>sum()</code>, etc.).</li>
+                </ul>
+            </div>
+            <textarea class="code-block" id="code14" rows="2">df.groupby('Ciudad')['TotalGastado'].mean()</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code14', 'out14')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out14"></div>
+            <p class="mt-2"><small>Calcula el promedio de <code>TotalGastado</code> por ciudad.</small></p>
+        </section>
+
+        <section class="topic-section" id="filtrado-string">
+            <h2 class="topic-title">15. Filtrado Básico con Strings</h2>
+            <div class="mb-2">
+                <b>¿Para qué sirve?</b> Filtra filas donde una columna de texto contiene una subcadena.<br>
+                <b>¿Cómo se utiliza?</b> <code>df[df['columna'].str.contains('texto')]</code><br>
+                <b>Parámetros principales:</b>
+                <ul>
+                    <li>Subcadena a buscar.</li>
+                    <li><b>case</b>: Sensible a mayúsculas/minúsculas (<code>True</code>/<code>False</code>).</li>
+                    <li><b>na</b>: Cómo tratar valores nulos.</li>
+                </ul>
+            </div>
+            <textarea class="code-block" id="code15" rows="2">df[df['Nombre'].str.contains('Ana')]</textarea>
+            <button class="btn btn-success mt-2" onclick="runCode(this, 'code15', 'out15')">▶ Ejecutar Código</button>
+            <div class="output-block" id="out15"></div>
+            <p class="mt-2"><small>Filtra filas donde la columna <code>Nombre</code> contiene la cadena "Ana".</small></p>
+        </section>
+
+        <section class="topic-section" id="resumen-exploracion">
+            <h2 class="topic-title">Resumen de la Exploración Inicial</h2>
+            <ul>
+                <li>Visualizaste las primeras y últimas filas para obtener una idea general de los datos.</li>
+                <li>Revisaste dimensiones, nombres y tipos de columnas.</li>
+                <li>Aplicaste filtros y seleccionaste columnas específicas.</li>
+                <li>Realizaste cálculos y agrupaciones básicas.</li>
+                <li>Aprendiste a seleccionar datos por etiquetas y posiciones.</li>
+            </ul>
+            <p>Esta información inicial es crucial y guía los siguientes pasos de limpieza y preparación de datos.</p>
+        </section>
+
+        <section class="topic-section" id="proximos-pasos">
+            <h2 class="topic-title">Próximos Pasos en la Preparación de Datos</h2>
+            <ul>
+                <li><b>Identificación y Tratamiento de Outliers:</b> Buscar valores atípicos que puedan distorsionar análisis o modelos, y decidir cómo tratarlos.</li>
+                <li><b>Manejo de Valores Faltantes:</b> Identificar y tratar valores nulos o vacíos.</li>
+                <li><b>Conversión de Tipos de Datos:</b> Asegurarse de que cada columna tenga el tipo de dato adecuado.</li>
+                <li><b>Creación de Nuevas Variables:</b> Generar columnas derivadas para análisis más profundos.</li>
+            </ul>
+            <p>¡Te animamos a practicar estos comandos básicos con el archivo CSV proporcionado y observar los resultados detalladamente!</p>
+        </section>
+
+        <section class="topic-section" id="preguntas">
+            <h2 class="topic-title">Preguntas y Discusión</h2>
+            <ul>
+                <li>¿Alguna pregunta sobre los comandos de Pandas utilizados o su salida?</li>
+                <li>¿Cómo interpretarías los resultados de <code>.info()</code> o <code>.describe(include='all')</code> en diferentes escenarios de datos?</li>
+                <li>¿Hay algún aspecto de la carga o exploración inicial que no haya quedado claro o sobre el que quieras profundizar?</li>
+            </ul>
+        </section>
+
+        <footer class="footer">
+            &copy; 2025 ECBD | Sistema de clases dinámicas
+        </footer>
+    </div> <!-- end content-wrapper -->
+</body>
+</html>
