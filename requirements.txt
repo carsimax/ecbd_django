@@ -4,4 +4,5 @@ numpy>=1.23
 jupyterlab>=3.0
 gunicorn
 whitenoise
-dj-database-url 
+dj-database-url
+tabulate 
