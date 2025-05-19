@@ -1,1 +1,1 @@
-web: gunicorn ecbd.wsgi 
+web: gunicorn ecbd.wsgi:application --bind 0.0.0.0:$PORT 

@@ -85,3 +85,6 @@ def ejecutar_codigo(request):
         except Exception as e:
             return JsonResponse({'output': 'Error:\n' + traceback.format_exc()})
     return JsonResponse({'output': 'Método no permitido'})
+
+def clase_data_warehouse(request):
+    return render(request, 'clases/clase_data_warehouse.html')
