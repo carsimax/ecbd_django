@@ -62,11 +62,14 @@
             font-size: 1rem;
             font-family: 'Fira Code', 'Consolas', 'Share Tech Mono', monospace;
             width: 100%;
-            overflow-y: hidden; /* Key for auto-height */
-            resize: none;
             box-sizing: border-box;
             border: 1px solid #3d424a;
             line-height: 1.5;
+            white-space: pre-wrap;   /* Permite que el código se ajuste y crezca en altura */
+            overflow: visible;       /* Permite que crezca en altura */
+            resize: none;            /* No permite redimensionar manualmente */
+            min-height: 0;           /* Elimina cualquier altura mínima */
+            max-height: none;        /* Elimina cualquier altura máxima */
         }
         .output-block {
             background: #f7f7f7;
@@ -148,18 +151,6 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        window.onload = function() {
-            document.querySelectorAll('.code-block').forEach(function(textarea) {
-                function autoResize() {
-                    this.style.height = 'auto'; // Reset height to shrink if needed
-                    this.style.height = (this.scrollHeight) + 'px'; // Set to content height
-                }
-                textarea.addEventListener('input', autoResize, false);
-                // Call autoResize once to set initial height
-                autoResize.call(textarea);
-            });
-        };
-
         function runCode(btn, codeId, outId) {
             const code = document.getElementById(codeId).value;
             const out = document.getElementById(outId);
@@ -303,8 +294,8 @@
                         <li><b>header</b>: Fila que contiene los nombres de las columnas (por defecto la primera).</li>
                     </ul>
                 </div>
-                <textarea class="code-block" id="code1" rows="2">import pandas as pd
-df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
+                <pre class="code-block"><code>import pandas as pd
+df = pd.read_csv('clases/clientes_pedidos.csv')</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code1', 'out1')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out1"></div>
                 <p class="mt-2"><small>Utiliza <code>pd.read_csv()</code> para cargar archivos CSV en un DataFrame.</small></p>
@@ -320,10 +311,10 @@ df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
                         <li><b>n</b>: Número de filas a mostrar (por defecto 5).</li>
                     </ul>
                 </div>
-                <textarea class="code-block" id="code2" rows="2">df.head()</textarea>
+                <pre class="code-block"><code>df.head()</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code2', 'out2')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out2"></div>
-                <textarea class="code-block mt-2" id="code2b" rows="2">df.tail()</textarea>
+                <pre class="code-block"><code>df.tail()</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code2b', 'out2b')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out2b"></div>
                 <p class="mt-2"><small><code>df.head()</code> muestra las primeras 5 filas y <code>df.tail()</code> las últimas 5 filas del DataFrame.</small></p>
@@ -336,7 +327,7 @@ df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df.shape</code><br>
                     <b>Parámetros:</b> No recibe parámetros.
                 </div>
-                <textarea class="code-block" id="code3" rows="2">df.shape</textarea>
+                <pre class="code-block"><code>df.shape</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code3', 'out3')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out3"></div>
                 <p class="mt-2"><small>Devuelve una tupla: <code>(número_de_filas, número_de_columnas)</code>.</small></p>
@@ -353,7 +344,7 @@ df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
                         <li><b>verbose</b>: Muestra información detallada (por defecto <code>None</code>).</li>
                     </ul>
                 </div>
-                <textarea class="code-block" id="code4" rows="2">df.info()</textarea>
+                <pre class="code-block"><code>df.info()</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code4', 'out4')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out4"></div>
             </section>
@@ -369,7 +360,7 @@ df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
                         <li><b>percentiles</b>: Lista de percentiles a mostrar.</li>
                     </ul>
                 </div>
-                <textarea class="code-block" id="code5" rows="2">df.describe(include='all')</textarea>
+                <pre class="code-block"><code>df.describe(include='all')</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code5', 'out5')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out5"></div>
             </section>
@@ -381,10 +372,10 @@ df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df.columns</code> y <code>df.dtypes</code><br>
                     <b>Parámetros:</b> No reciben parámetros.
                 </div>
-                <textarea class="code-block" id="code6" rows="4">print("Nombres de columnas:")
+                <pre class="code-block"><code>print("Nombres de columnas:")
 print(list(df.columns))
 print("\nTipos de datos por columna:")
-print(df.dtypes)</textarea>
+print(df.dtypes)</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code6', 'out6')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out6"></div>
             </section>
@@ -396,10 +387,10 @@ print(df.dtypes)</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df['columna']</code> o <code>df[['col1', 'col2']]</code><br>
                     <b>Parámetros:</b> Nombre(s) de columna(s) como string o lista de strings.
                 </div>
-                <textarea class="code-block" id="code7" rows="2">df['Nombre']</textarea>
+                <pre class="code-block"><code>df['Nombre']</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code7', 'out7')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out7"></div>
-                <textarea class="code-block mt-2" id="code7b" rows="2">df[['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
+                <pre class="code-block"><code>df[['Nombre', 'Ciudad', 'TotalGastado']]</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code7b', 'out7b')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out7b"></div>
                 <p class="mt-2"><small>Selecciona una o varias columnas del DataFrame.</small></p>
@@ -412,7 +403,7 @@ print(df.dtypes)</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df[condición]</code><br>
                     <b>Parámetros:</b> Condición booleana sobre columnas.
                 </div>
-                <textarea class="code-block" id="code8" rows="2">df[df['Pais'] == 'Mexico']</textarea>
+                <pre class="code-block"><code>df[df['Pais'] == 'Mexico']</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code8', 'out8')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out8"></div>
                 <p class="mt-2"><small>Filtra filas donde la columna <code>Pais</code> es igual a "Mexico".</small></p>
@@ -425,7 +416,7 @@ print(df.dtypes)</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df[(cond1) & (cond2)]</code><br>
                     <b>Parámetros:</b> Condiciones booleanas combinadas con <code>&</code> (AND) o <code>|</code> (OR).
                 </div>
-                <textarea class="code-block" id="code9" rows="2">df[(df['Pais'] == 'Mexico') & (df['Activo'] == 'Si')]</textarea>
+                <pre class="code-block"><code>df[(df['Pais'] == 'Mexico') & (df['Activo'] == 'Si')]</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code9', 'out9')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out9"></div>
                 <p class="mt-2"><small>Filtra filas donde <code>Pais</code> es "Mexico" y <code>Activo</code> es "Si".</small></p>
@@ -438,7 +429,7 @@ print(df.dtypes)</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df['columna'].mean()</code><br>
                     <b>Parámetros:</b> No recibe parámetros (aplicado sobre una columna numérica).
                 </div>
-                <textarea class="code-block" id="code10" rows="2">df['TotalGastado'].mean()</textarea>
+                <pre class="code-block"><code>df['TotalGastado'].mean()</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code10', 'out10')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out10"></div>
                 <p class="mt-2"><small>Calcula el promedio de la columna <code>TotalGastado</code>.</small></p>
@@ -451,7 +442,7 @@ print(df.dtypes)</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df.loc[fila_inicio:fila_fin, ['col1', 'col2']]</code><br>
                     <b>Parámetros principales:</b> Índices de filas y nombres de columnas.
                 </div>
-                <textarea class="code-block" id="code11" rows="2">df.loc[0:2, ['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
+                <pre class="code-block"><code>df.loc[0:2, ['Nombre', 'Ciudad', 'TotalGastado']]</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code11', 'out11')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out11"></div>
                 <p class="mt-2"><small>Selecciona filas por índice y columnas por nombre usando <code>.loc</code>.</small></p>
@@ -464,7 +455,7 @@ print(df.dtypes)</textarea>
                     <b>¿Cómo se utiliza?</b> <code>df.iloc[filas, columnas]</code><br>
                     <b>Parámetros principales:</b> Rangos o listas de posiciones de filas y columnas.
                 </div>
-                <textarea class="code-block" id="code12" rows="2">df.iloc[0:3, 1:4]</textarea>
+                <pre class="code-block"><code>df.iloc[0:3, 1:4]</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code12', 'out12')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out12"></div>
                 <p class="mt-2"><small>Selecciona filas y columnas por posición numérica usando <code>.iloc</code>.</small></p>
@@ -481,7 +472,7 @@ print(df.dtypes)</textarea>
                         <li><b>ascending</b>: Orden ascendente (<code>True</code>) o descendente (<code>False</code>).</li>
                     </ul>
                 </div>
-                <textarea class="code-block" id="code13" rows="2">df.sort_values(by='TotalGastado', ascending=False)</textarea>
+                <pre class="code-block"><code>df.sort_values(by='TotalGastado', ascending=False)</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code13', 'out13')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out13"></div>
                 <p class="mt-2"><small>Ordena el DataFrame por la columna <code>TotalGastado</code> de mayor a menor.</small></p>
@@ -498,7 +489,7 @@ print(df.dtypes)</textarea>
                         <li>Función de agregación (<code>mean()</code>, <code>sum()</code>, etc.).</li>
                     </ul>
                 </div>
-                <textarea class="code-block" id="code14" rows="2">df.groupby('Ciudad')['TotalGastado'].mean()</textarea>
+                <pre class="code-block"><code>df.groupby('Ciudad')['TotalGastado'].mean()</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code14', 'out14')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out14"></div>
                 <p class="mt-2"><small>Calcula el promedio de <code>TotalGastado</code> por ciudad.</small></p>
@@ -516,7 +507,7 @@ print(df.dtypes)</textarea>
                         <li><b>na</b>: Cómo tratar valores nulos.</li>
                     </ul>
                 </div>
-                <textarea class="code-block" id="code15" rows="2">df[df['Nombre'].str.contains('Ana')]</textarea>
+                <pre class="code-block"><code>df[df['Nombre'].str.contains('Ana')]</code></pre>
                 <button class="btn btn-success mt-2" onclick="runCode(this, 'code15', 'out15')">▶ Ejecutar Código</button>
                 <div class="output-block" id="out15"></div>
                 <p class="mt-2"><small>Filtra filas donde la columna <code>Nombre</code> contiene la cadena "Ana".</small></p>
