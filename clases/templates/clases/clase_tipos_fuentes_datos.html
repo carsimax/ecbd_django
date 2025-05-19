@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 2: El Universo de los Datos - Tipos y Fuentes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        .content-wrapper {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+        .page-header h1 {
+            color: #007bff;
+            font-weight: 600;
+            font-size: 2.2rem;
+        }
+        .topic-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .topic-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .topic-title {
+            color: #17a2b8;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        details summary {
+            cursor: pointer;
+            color: #0d6efd;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .table-responsive {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container content-wrapper">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Clase 2: Tipos y Fuentes de Datos</li>
+            </ol>
+        </nav>
+        <h1 class="mt-4 mb-3">El Universo de los Datos: Tipos y Fuentes</h1>
+        <p class="lead">Unidad 2: Preparación de los Datos<br>Tema: Tipos y Fuentes de Datos (Actividad 3)</p>
+
+        <div id="slide-container">
+            <!-- Diapositiva 1: Introducción -->
+            <section class="topic-section slide" style="display:block;">
+                <h2 class="topic-title">El Universo de los Datos: Comprendiendo sus Tipos y Orígenes</h2>
+                <p>
+                    En esta clase profundizaremos en la naturaleza de los datos: ¿qué formas adoptan y de dónde provienen?<br>
+                    <b>Comprender esto es fundamental para elegir las herramientas y técnicas adecuadas de preparación y análisis.</b>
+                </p>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Continuamos nuestro viaje en la preparación de datos. Ya vimos por qué es crucial preparar los datos y dimos los primeros pasos para cargarlos y explorarlos con Python.</li>
+                        <li>Hoy, daremos un paso atrás para entender mejor la naturaleza de los datos con los que trabajamos: ¿qué formas adoptan y de dónde provienen?</li>
+                        <li>Comprender esto es fundamental para elegir las herramientas y técnicas adecuadas de preparación y análisis.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 2: Agenda -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Agenda</h2>
+                <ul>
+                    <li>¿Por qué clasificar los datos? La importancia de la estructura.</li>
+                    <li>Tipo 1: Datos Estructurados</li>
+                    <li>Tipo 2: Datos Semi-estructurados</li>
+                    <li>Tipo 3: Datos No Estructurados</li>
+                    <li>Comparativa Rápida</li>
+                    <li>Fuentes de Datos: ¿De dónde surge toda esta información?</li>
+                    <li>Relación entre Fuentes y Tipos de Datos</li>
+                    <li>Implicaciones para el Análisis y la Preparación</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Hoy clasificaremos los datos según su estructura y exploraremos la vasta gama de lugares de donde pueden originarse.</li>
+                        <li>Veremos cómo esta clasificación impacta directamente en cómo los manejamos.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 3: ¿Por Qué Clasificar los Datos por Estructura? -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">¿Por Qué Clasificar los Datos por Estructura?</h2>
+                <ul>
+                    <li><b>Facilita el Procesamiento:</b> Diferentes estructuras requieren diferentes herramientas y técnicas.</li>
+                    <li><b>Determina la Complejidad:</b> Analizar una tabla es muy diferente a analizar texto libre o imágenes.</li>
+                    <li><b>Impacta en el Almacenamiento:</b> Relacional vs. NoSQL vs. Data Lakes.</li>
+                    <li><b>Guía la Selección de Herramientas:</b> SQL, Pandas, NLP, visión por computadora, etc.</li>
+                    <li>Entender la estructura es el primer paso para poder extraer valor.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>No todos los datos son iguales. La estructura importa.</li>
+                        <li>Esta clasificación nos ayuda a organizar nuestro pensamiento y nuestro enfoque técnico.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 4: Tipo 1: Datos Estructurados -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Tipo 1: Datos Estructurados</h2>
+                <p>
+                    <b>Definición:</b> Datos que se adhieren a un modelo predefinido y fijo, organizados en tablas.<br>
+                    <b>Características:</b>
+                </p>
+                <ul>
+                    <li>Esquema rígido y bien definido.</li>
+                    <li>Fácil de consultar y procesar con SQL, hojas de cálculo, Pandas.</li>
+                    <li>Representan ~20% de los datos mundiales.</li>
+                </ul>
+                <b>Ejemplos:</b>
+                <ul>
+                    <li>Bases de datos relacionales (MySQL, PostgreSQL, SQL Server).</li>
+                    <li>Archivos CSV, Excel.</li>
+                    <li>Registros de ventas, inventarios, CRM.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Estos son los datos más familiares y la base de los sistemas empresariales tradicionales.</li>
+                        <li>Pandas está especialmente diseñado para trabajar con este tipo de datos.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 5: Tipo 2: Datos Semi-estructurados -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Tipo 2: Datos Semi-estructurados</h2>
+                <p>
+                    <b>Definición:</b> Datos que no se ajustan a un modelo formal, pero contienen etiquetas o marcadores.<br>
+                    <b>Características:</b>
+                </p>
+                <ul>
+                    <li>Esquema flexible o implícito.</li>
+                    <li>Contienen metadatos o información sobre su estructura.</li>
+                    <li>Más fáciles de procesar que los no estructurados, pero requieren parsing.</li>
+                </ul>
+                <b>Ejemplos:</b>
+                <ul>
+                    <li>JSON, XML.</li>
+                    <li>Archivos de log con formato.</li>
+                    <li>Emails, datos de NoSQL (MongoDB).</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Punto intermedio: tienen estructura interna aprovechable.</li>
+                        <li>Muy comunes hoy en día por la web y las APIs.</li>
+                        <li>Pandas puede leer JSON y XML, aunque a veces requiere manipulación extra.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 6: Tipo 3: Datos No Estructurados -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Tipo 3: Datos No Estructurados</h2>
+                <p>
+                    <b>Definición:</b> Datos sin estructura interna identificable.<br>
+                    <b>Características:</b>
+                </p>
+                <ul>
+                    <li>Formato libre, difíciles de procesar con herramientas tradicionales.</li>
+                    <li>Requieren técnicas avanzadas (NLP, visión por computadora, audio).</li>
+                    <li>Constituyen ~80% de los datos generados actualmente.</li>
+                </ul>
+                <b>Ejemplos:</b>
+                <ul>
+                    <li>Texto libre (emails, redes sociales, documentos).</li>
+                    <li>Imágenes, video, audio.</li>
+                    <li>Datos crudos de sensores.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>La mayor parte de la información del mundo está aquí, pero es la más difícil de analizar.</li>
+                        <li>Este curso se centra en estructurados y semi-estructurados, pero es vital conocer este universo.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 7: Comparativa Rápida -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Comparativa Rápida: Estructura de Datos</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Característica</th>
+                                <th>Estructurados</th>
+                                <th>Semi-estructurados</th>
+                                <th>No Estructurados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Organización</td>
+                                <td>Alta (Tablas, filas, columnas)</td>
+                                <td>Media (Tags, jerarquías)</td>
+                                <td>Baja o ninguna</td>
+                            </tr>
+                            <tr>
+                                <td>Esquema</td>
+                                <td>Rígido, predefinido</td>
+                                <td>Flexible, auto-descriptivo</td>
+                                <td>Inexistente o implícito</td>
+                            </tr>
+                            <tr>
+                                <td>Facilidad Análisis</td>
+                                <td>Alta (herramientas std.)</td>
+                                <td>Media (requiere parsing)</td>
+                                <td>Baja (técnicas avanzadas)</td>
+                            </tr>
+                            <tr>
+                                <td>Ejemplos</td>
+                                <td>SQL DB, CSV, Excel</td>
+                                <td>JSON, XML, Logs</td>
+                                <td>Texto, Imágenes, Audio, Video</td>
+                            </tr>
+                            <tr>
+                                <td>% Datos Globales</td>
+                                <td>~20%</td>
+                                <td>(Incluido a menudo en los otros)</td>
+                                <td>~80%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>La línea entre semi-estructurado y no estructurado puede ser difusa.</li>
+                        <li>La distinción principal es si hay alguna guía interna para interpretar el contenido.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 8: Fuentes de Datos -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Fuentes de Datos: ¿De Dónde Vienen?</h2>
+                <ul>
+                    <li>Por Origen: Internas vs. Externas.</li>
+                    <li>Por Generador: Humanos vs. Máquinas/Sensores.</li>
+                    <li>Por Sector: Negocios, Ciencia, Gobierno, Personal, etc.</li>
+                    <li><b>La clave es la DIVERSIDAD de fuentes.</b></li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Piensen en todas las interacciones digitales y físicas que generan datos hoy en día.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 9 y 10: Ejemplos Reales de Fuentes de Datos -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Ejemplos Reales de Fuentes de Datos</h2>
+                <ul>
+                    <li><b>Sistemas Transaccionales (OLTP):</b> Bases de datos de ventas, ERPs, CRMs, bancos. <i>(Estructurado)</i></li>
+                    <li><b>Actividad Web y Móvil:</b> Logs de servidores, clics, Google Analytics. <i>(Semi-estructurado y estructurado)</i></li>
+                    <li><b>Redes Sociales:</b> Twitter, Facebook, Instagram. <i>(No estructurado y semi-estructurado)</i></li>
+                    <li><b>Internet de las Cosas (IoT) y Sensores:</b> Wearables, sensores industriales, GPS, cámaras. <i>(Semi-estructurado o no estructurado)</i></li>
+                    <li><b>Investigación Científica:</b> Secuenciadores de ADN, telescopios, simulaciones. <i>(Todos los tipos)</i></li>
+                    <li><b>Datos Públicos y Abiertos:</b> Portales gubernamentales, datos meteorológicos, censos. <i>(Estructurado o semi-estructurado)</i></li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Una misma fuente puede generar múltiples tipos de datos.</li>
+                        <li>El IoT y la ciencia generan grandes volúmenes y variedad de datos.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 11: Relación Fuentes -> Tipos -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Relación Fuentes y Tipos de Datos</h2>
+                <p>
+                    <b>No hay una regla 1 a 1:</b> Una fuente puede generar múltiples tipos de datos.<br>
+                    <b>Ejemplo:</b> Una compra online genera:
+                </p>
+                <ul>
+                    <li><b>Estructurado:</b> Registro en la BD de ventas.</li>
+                    <li><b>Semi-estructurado:</b> Log del servidor web (JSON).</li>
+                    <li><b>No estructurado:</b> Comentario o reseña del cliente (texto libre).</li>
+                </ul>
+                <p>El desafío: Integrar y analizar datos de diversas fuentes y estructuras.</p>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Es crucial entender qué tipo de datos esperar de cada fuente para planificar su captura y procesamiento.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 12: Implicaciones para la Preparación y Análisis -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Implicaciones para la Preparación y Análisis</h2>
+                <ul>
+                    <li><b>Datos Estructurados:</b> Limpieza, consistencia, joins. Herramientas: SQL, Pandas.</li>
+                    <li><b>Datos Semi-estructurados:</b> Parsing, aplanar jerarquías, limpieza. Herramientas: Pandas, XML/JSON libs, regex.</li>
+                    <li><b>Datos No Estructurados:</b> NLP, visión por computadora, audio. Herramientas: NLTK, spaCy, OpenCV, TensorFlow, PyTorch.</li>
+                </ul>
+                <p>Conocer el tipo y la fuente guía la estrategia de preparación.</p>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>El tipo de dato dicta el tipo de trabajo de preparación.</li>
+                        <li>Nos centraremos en estructurados y semi-estructurados con Pandas.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 13: Conclusiones Clave -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Conclusiones Clave</h2>
+                <ul>
+                    <li>Los datos se clasifican en estructurados, semi-estructurados y no estructurados.</li>
+                    <li>La mayoría de los datos generados hoy son no estructurados.</li>
+                    <li>Los datos provienen de una enorme variedad de fuentes.</li>
+                    <li>Comprender el tipo y la fuente es esencial para definir la estrategia de preparación, almacenamiento y análisis.</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Estos conceptos son la base para entender los desafíos y oportunidades en el análisis de datos.</li>
+                        <li>En la próxima actividad, analizarán un conjunto de datos para identificar su estructura y fuente.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- Diapositiva 14: Preguntas y Discusión -->
+            <section class="topic-section slide" style="display:none;">
+                <h2 class="topic-title">Preguntas y Discusión</h2>
+                <ul>
+                    <li>¿Preguntas sobre los tipos de datos o las fuentes mencionadas?</li>
+                    <li>¿Pueden pensar en otros ejemplos de fuentes o tipos de datos en su vida diaria?</li>
+                </ul>
+                <details>
+                    <summary><b>Notas del orador</b></summary>
+                    <ul>
+                        <li>Abrir el espacio para preguntas y pedir ejemplos a los estudiantes.</li>
+                    </ul>
+                </details>
+            </section>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button id="prevBtn" class="btn btn-outline-primary" disabled>Anterior</button>
+            <button id="nextBtn" class="btn btn-primary">Siguiente</button>
+        </div>
+
+        <footer class="footer">
+            <small>
+                Fuentes consultadas:<br>
+                UTEZ (2024), Inmon (2005), Leskovec et al. (2014), SAS Insights, TechTarget.<br>
+                <a href="http://www.mmds.org/" target="_blank">Mining of Massive Datasets</a>
+            </small>
+        </footer>
+    </div>
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.style.display = (i === idx) ? 'block' : 'none';
+            });
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === slides.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+        // Inicializar
+        showSlide(currentSlide);
+    </script>
+</body>
+</html> 

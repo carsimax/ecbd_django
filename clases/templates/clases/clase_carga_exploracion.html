@@ -280,277 +280,318 @@
 </head>
 <body>
     <div class="container content-wrapper">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Clase 1: Carga y Exploración</li>
+            </ol>
+        </nav>
         <h1 class="mt-4 mb-3">Carga y Exploración Inicial de Datos con Pandas</h1>
         <p class="lead">En esta clase aprenderás a cargar, explorar y analizar datos usando Python y Pandas. A continuación, se presentan las funciones y técnicas más importantes para la exploración inicial de un DataFrame.</p>
 
-        <!-- 1. Carga de Datos y Visualización Básica -->
-        <section class="topic-section" id="carga-datos">
-            <h2 class="topic-title">1. Carga de Datos</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Carga datos desde un archivo CSV a un DataFrame de Pandas.<br>
-                <b>¿Cómo se utiliza?</b> <code>pd.read_csv(filepath, sep=',', header='infer', ...)</code><br>
-                <b>Parámetros principales:</b> <br>
-                <ul>
-                    <li><b>filepath</b>: Ruta al archivo CSV.</li>
-                    <li><b>sep</b>: Separador de columnas (por defecto <code>,</code>).</li>
-                    <li><b>header</b>: Fila que contiene los nombres de las columnas (por defecto la primera).</li>
-                </ul>
-            </div>
-            <textarea class="code-block" id="code1" rows="2">import pandas as pd
+        <div id="slide-container">
+            <!-- Cada sección temática será una slide -->
+            <section class="topic-section slide" style="display:block;" id="carga-datos">
+                <h2 class="topic-title">1. Carga de Datos</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Carga datos desde un archivo CSV a un DataFrame de Pandas.<br>
+                    <b>¿Cómo se utiliza?</b> <code>pd.read_csv(filepath, sep=',', header='infer', ...)</code><br>
+                    <b>Parámetros principales:</b> <br>
+                    <ul>
+                        <li><b>filepath</b>: Ruta al archivo CSV.</li>
+                        <li><b>sep</b>: Separador de columnas (por defecto <code>,</code>).</li>
+                        <li><b>header</b>: Fila que contiene los nombres de las columnas (por defecto la primera).</li>
+                    </ul>
+                </div>
+                <textarea class="code-block" id="code1" rows="2">import pandas as pd
 df = pd.read_csv('clases/clientes_pedidos.csv')</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code1', 'out1')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out1"></div>
-            <p class="mt-2"><small>Utiliza <code>pd.read_csv()</code> para cargar archivos CSV en un DataFrame.</small></p>
-        </section>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code1', 'out1')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out1"></div>
+                <p class="mt-2"><small>Utiliza <code>pd.read_csv()</code> para cargar archivos CSV en un DataFrame.</small></p>
+            </section>
 
-        <section class="topic-section" id="primeras-filas">
-            <h2 class="topic-title">2. Primeras y Últimas Filas</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Muestra las primeras o últimas filas del DataFrame.<br>
-                <b>¿Cómo se utiliza?</b> <code>df.head(n=5)</code> o <code>df.tail(n=5)</code><br>
-                <b>Parámetros principales:</b> <br>
-                <ul>
-                    <li><b>n</b>: Número de filas a mostrar (por defecto 5).</li>
-                </ul>
-            </div>
-            <textarea class="code-block" id="code2" rows="2">df.head()</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code2', 'out2')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out2"></div>
-            <textarea class="code-block mt-2" id="code2b" rows="2">df.tail()</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code2b', 'out2b')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out2b"></div>
-            <p class="mt-2"><small><code>df.head()</code> muestra las primeras 5 filas y <code>df.tail()</code> las últimas 5 filas del DataFrame.</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="primeras-filas">
+                <h2 class="topic-title">2. Primeras y Últimas Filas</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Muestra las primeras o últimas filas del DataFrame.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.head(n=5)</code> o <code>df.tail(n=5)</code><br>
+                    <b>Parámetros principales:</b> <br>
+                    <ul>
+                        <li><b>n</b>: Número de filas a mostrar (por defecto 5).</li>
+                    </ul>
+                </div>
+                <textarea class="code-block" id="code2" rows="2">df.head()</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code2', 'out2')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out2"></div>
+                <textarea class="code-block mt-2" id="code2b" rows="2">df.tail()</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code2b', 'out2b')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out2b"></div>
+                <p class="mt-2"><small><code>df.head()</code> muestra las primeras 5 filas y <code>df.tail()</code> las últimas 5 filas del DataFrame.</small></p>
+            </section>
 
-        <section class="topic-section" id="dimensiones-df">
-            <h2 class="topic-title">3. Dimensiones del DataFrame</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Devuelve una tupla con el número de filas y columnas del DataFrame.<br>
-                <b>¿Cómo se utiliza?</b> <code>df.shape</code><br>
-                <b>Parámetros:</b> No recibe parámetros.
-            </div>
-            <textarea class="code-block" id="code3" rows="2">df.shape</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code3', 'out3')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out3"></div>
-            <p class="mt-2"><small>Devuelve una tupla: <code>(número_de_filas, número_de_columnas)</code>.</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="dimensiones-df">
+                <h2 class="topic-title">3. Dimensiones del DataFrame</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Devuelve una tupla con el número de filas y columnas del DataFrame.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.shape</code><br>
+                    <b>Parámetros:</b> No recibe parámetros.
+                </div>
+                <textarea class="code-block" id="code3" rows="2">df.shape</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code3', 'out3')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out3"></div>
+                <p class="mt-2"><small>Devuelve una tupla: <code>(número_de_filas, número_de_columnas)</code>.</small></p>
+            </section>
 
-        <section class="topic-section" id="info-general">
-            <h2 class="topic-title">4. Información General</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Muestra información general del DataFrame: número de filas, columnas, tipos de datos y valores nulos.<br>
-                <b>¿Cómo se utiliza?</b> <code>df.info()</code><br>
-                <b>Parámetros principales:</b>
-                <ul>
-                    <li><b>memory_usage</b>: Muestra el uso de memoria (por defecto <code>True</code>).</li>
-                    <li><b>verbose</b>: Muestra información detallada (por defecto <code>None</code>).</li>
-                </ul>
-            </div>
-            <textarea class="code-block" id="code4" rows="2">df.info()</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code4', 'out4')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out4"></div>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="info-general">
+                <h2 class="topic-title">4. Información General</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Muestra información general del DataFrame: número de filas, columnas, tipos de datos y valores nulos.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.info()</code><br>
+                    <b>Parámetros principales:</b>
+                    <ul>
+                        <li><b>memory_usage</b>: Muestra el uso de memoria (por defecto <code>True</code>).</li>
+                        <li><b>verbose</b>: Muestra información detallada (por defecto <code>None</code>).</li>
+                    </ul>
+                </div>
+                <textarea class="code-block" id="code4" rows="2">df.info()</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code4', 'out4')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out4"></div>
+            </section>
 
-        <section class="topic-section" id="estadisticas-descriptivas">
-            <h2 class="topic-title">5. Estadísticas Descriptivas</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Genera estadísticas descriptivas de las columnas numéricas (o de todas si se usa <code>include='all'</code>).<br>
-                <b>¿Cómo se utiliza?</b> <code>df.describe(include=None)</code><br>
-                <b>Parámetros principales:</b>
-                <ul>
-                    <li><b>include</b>: Tipos de datos a incluir (<code>'all'</code>, <code>['object']</code>, etc.).</li>
-                    <li><b>percentiles</b>: Lista de percentiles a mostrar.</li>
-                </ul>
-            </div>
-            <textarea class="code-block" id="code5" rows="2">df.describe(include='all')</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code5', 'out5')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out5"></div>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="estadisticas-descriptivas">
+                <h2 class="topic-title">5. Estadísticas Descriptivas</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Genera estadísticas descriptivas de las columnas numéricas (o de todas si se usa <code>include='all'</code>).<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.describe(include=None)</code><br>
+                    <b>Parámetros principales:</b>
+                    <ul>
+                        <li><b>include</b>: Tipos de datos a incluir (<code>'all'</code>, <code>['object']</code>, etc.).</li>
+                        <li><b>percentiles</b>: Lista de percentiles a mostrar.</li>
+                    </ul>
+                </div>
+                <textarea class="code-block" id="code5" rows="2">df.describe(include='all')</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code5', 'out5')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out5"></div>
+            </section>
 
-        <section class="topic-section" id="nombres-tipos-columnas">
-            <h2 class="topic-title">6. Nombres y Tipos de Columnas</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> <code>df.columns</code> lista los nombres de las columnas y <code>df.dtypes</code> muestra el tipo de dato de cada columna.<br>
-                <b>¿Cómo se utiliza?</b> <code>df.columns</code> y <code>df.dtypes</code><br>
-                <b>Parámetros:</b> No reciben parámetros.
-            </div>
-            <textarea class="code-block" id="code6" rows="4">print("Nombres de columnas:")
+            <section class="topic-section slide" style="display:none;" id="nombres-tipos-columnas">
+                <h2 class="topic-title">6. Nombres y Tipos de Columnas</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> <code>df.columns</code> lista los nombres de las columnas y <code>df.dtypes</code> muestra el tipo de dato de cada columna.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.columns</code> y <code>df.dtypes</code><br>
+                    <b>Parámetros:</b> No reciben parámetros.
+                </div>
+                <textarea class="code-block" id="code6" rows="4">print("Nombres de columnas:")
 print(list(df.columns))
 print("\nTipos de datos por columna:")
 print(df.dtypes)</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code6', 'out6')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out6"></div>
-        </section>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code6', 'out6')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out6"></div>
+            </section>
 
-        <!-- 2. Selección y Filtrado de Datos -->
-        <section class="topic-section" id="seleccion-columnas">
-            <h2 class="topic-title">7. Selección de Columnas</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Selecciona una o varias columnas del DataFrame.<br>
-                <b>¿Cómo se utiliza?</b> <code>df['columna']</code> o <code>df[['col1', 'col2']]</code><br>
-                <b>Parámetros:</b> Nombre(s) de columna(s) como string o lista de strings.
-            </div>
-            <textarea class="code-block" id="code7" rows="2">df['Nombre']</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code7', 'out7')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out7"></div>
-            <textarea class="code-block mt-2" id="code7b" rows="2">df[['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code7b', 'out7b')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out7b"></div>
-            <p class="mt-2"><small>Selecciona una o varias columnas del DataFrame.</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="seleccion-columnas">
+                <h2 class="topic-title">7. Selección de Columnas</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Selecciona una o varias columnas del DataFrame.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df['columna']</code> o <code>df[['col1', 'col2']]</code><br>
+                    <b>Parámetros:</b> Nombre(s) de columna(s) como string o lista de strings.
+                </div>
+                <textarea class="code-block" id="code7" rows="2">df['Nombre']</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code7', 'out7')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out7"></div>
+                <textarea class="code-block mt-2" id="code7b" rows="2">df[['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code7b', 'out7b')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out7b"></div>
+                <p class="mt-2"><small>Selecciona una o varias columnas del DataFrame.</small></p>
+            </section>
 
-        <section class="topic-section" id="filtrado-simple">
-            <h2 class="topic-title">8. Filtrado de Filas (Condiciones Simples)</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Filtra filas según una condición booleana.<br>
-                <b>¿Cómo se utiliza?</b> <code>df[condición]</code><br>
-                <b>Parámetros:</b> Condición booleana sobre columnas.
-            </div>
-            <textarea class="code-block" id="code8" rows="2">df[df['Pais'] == 'Mexico']</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code8', 'out8')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out8"></div>
-            <p class="mt-2"><small>Filtra filas donde la columna <code>Pais</code> es igual a "Mexico".</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="filtrado-simple">
+                <h2 class="topic-title">8. Filtrado de Filas (Condiciones Simples)</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Filtra filas según una condición booleana.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df[condición]</code><br>
+                    <b>Parámetros:</b> Condición booleana sobre columnas.
+                </div>
+                <textarea class="code-block" id="code8" rows="2">df[df['Pais'] == 'Mexico']</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code8', 'out8')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out8"></div>
+                <p class="mt-2"><small>Filtra filas donde la columna <code>Pais</code> es igual a "Mexico".</small></p>
+            </section>
 
-        <section class="topic-section" id="filtrado-multiple">
-            <h2 class="topic-title">9. Filtrado de Filas (Condiciones Múltiples)</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Filtra filas usando múltiples condiciones (AND, OR).<br>
-                <b>¿Cómo se utiliza?</b> <code>df[(cond1) & (cond2)]</code><br>
-                <b>Parámetros:</b> Condiciones booleanas combinadas con <code>&</code> (AND) o <code>|</code> (OR).
-            </div>
-            <textarea class="code-block" id="code9" rows="2">df[(df['Pais'] == 'Mexico') & (df['Activo'] == 'Si')]</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code9', 'out9')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out9"></div>
-            <p class="mt-2"><small>Filtra filas donde <code>Pais</code> es "Mexico" y <code>Activo</code> es "Si".</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="filtrado-multiple">
+                <h2 class="topic-title">9. Filtrado de Filas (Condiciones Múltiples)</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Filtra filas usando múltiples condiciones (AND, OR).<br>
+                    <b>¿Cómo se utiliza?</b> <code>df[(cond1) & (cond2)]</code><br>
+                    <b>Parámetros:</b> Condiciones booleanas combinadas con <code>&</code> (AND) o <code>|</code> (OR).
+                </div>
+                <textarea class="code-block" id="code9" rows="2">df[(df['Pais'] == 'Mexico') & (df['Activo'] == 'Si')]</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code9', 'out9')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out9"></div>
+                <p class="mt-2"><small>Filtra filas donde <code>Pais</code> es "Mexico" y <code>Activo</code> es "Si".</small></p>
+            </section>
 
-        <section class="topic-section" id="calculo-resumen">
-            <h2 class="topic-title">10. Cálculo y Resumen Estadístico</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Calcula el promedio de una columna numérica.<br>
-                <b>¿Cómo se utiliza?</b> <code>df['columna'].mean()</code><br>
-                <b>Parámetros:</b> No recibe parámetros (aplicado sobre una columna numérica).
-            </div>
-            <textarea class="code-block" id="code10" rows="2">df['TotalGastado'].mean()</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code10', 'out10')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out10"></div>
-            <p class="mt-2"><small>Calcula el promedio de la columna <code>TotalGastado</code>.</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="calculo-resumen">
+                <h2 class="topic-title">10. Cálculo y Resumen Estadístico</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Calcula el promedio de una columna numérica.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df['columna'].mean()</code><br>
+                    <b>Parámetros:</b> No recibe parámetros (aplicado sobre una columna numérica).
+                </div>
+                <textarea class="code-block" id="code10" rows="2">df['TotalGastado'].mean()</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code10', 'out10')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out10"></div>
+                <p class="mt-2"><small>Calcula el promedio de la columna <code>TotalGastado</code>.</small></p>
+            </section>
 
-        <section class="topic-section" id="seleccion-loc">
-            <h2 class="topic-title">11. Selección Usando <code>.loc</code> (por etiquetas)</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Selecciona filas y columnas por etiquetas (nombres).<br>
-                <b>¿Cómo se utiliza?</b> <code>df.loc[fila_inicio:fila_fin, ['col1', 'col2']]</code><br>
-                <b>Parámetros principales:</b> Índices de filas y nombres de columnas.
-            </div>
-            <textarea class="code-block" id="code11" rows="2">df.loc[0:2, ['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code11', 'out11')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out11"></div>
-            <p class="mt-2"><small>Selecciona filas por índice y columnas por nombre usando <code>.loc</code>.</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="seleccion-loc">
+                <h2 class="topic-title">11. Selección Usando <code>.loc</code> (por etiquetas)</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Selecciona filas y columnas por etiquetas (nombres).<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.loc[fila_inicio:fila_fin, ['col1', 'col2']]</code><br>
+                    <b>Parámetros principales:</b> Índices de filas y nombres de columnas.
+                </div>
+                <textarea class="code-block" id="code11" rows="2">df.loc[0:2, ['Nombre', 'Ciudad', 'TotalGastado']]</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code11', 'out11')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out11"></div>
+                <p class="mt-2"><small>Selecciona filas por índice y columnas por nombre usando <code>.loc</code>.</small></p>
+            </section>
 
-        <section class="topic-section" id="seleccion-iloc">
-            <h2 class="topic-title">12. Selección Usando <code>.iloc</code> (por posición)</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Selecciona filas y columnas por posición numérica.<br>
-                <b>¿Cómo se utiliza?</b> <code>df.iloc[filas, columnas]</code><br>
-                <b>Parámetros principales:</b> Rangos o listas de posiciones de filas y columnas.
-            </div>
-            <textarea class="code-block" id="code12" rows="2">df.iloc[0:3, 1:4]</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code12', 'out12')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out12"></div>
-            <p class="mt-2"><small>Selecciona filas y columnas por posición numérica usando <code>.iloc</code>.</small></p>
-        </section>
+            <section class="topic-section slide" style="display:none;" id="seleccion-iloc">
+                <h2 class="topic-title">12. Selección Usando <code>.iloc</code> (por posición)</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Selecciona filas y columnas por posición numérica.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.iloc[filas, columnas]</code><br>
+                    <b>Parámetros principales:</b> Rangos o listas de posiciones de filas y columnas.
+                </div>
+                <textarea class="code-block" id="code12" rows="2">df.iloc[0:3, 1:4]</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code12', 'out12')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out12"></div>
+                <p class="mt-2"><small>Selecciona filas y columnas por posición numérica usando <code>.iloc</code>.</small></p>
+            </section>
 
-        <section class="topic-section" id="ordenamiento">
-            <h2 class="topic-title">13. Ordenamiento de Datos</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Ordena el DataFrame por los valores de una o más columnas.<br>
-                <b>¿Cómo se utiliza?</b> <code>df.sort_values(by='columna', ascending=True)</code><br>
-                <b>Parámetros principales:</b>
+            <section class="topic-section slide" style="display:none;" id="ordenamiento">
+                <h2 class="topic-title">13. Ordenamiento de Datos</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Ordena el DataFrame por los valores de una o más columnas.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.sort_values(by='columna', ascending=True)</code><br>
+                    <b>Parámetros principales:</b>
+                    <ul>
+                        <li><b>by</b>: Nombre(s) de columna(s) para ordenar.</li>
+                        <li><b>ascending</b>: Orden ascendente (<code>True</code>) o descendente (<code>False</code>).</li>
+                    </ul>
+                </div>
+                <textarea class="code-block" id="code13" rows="2">df.sort_values(by='TotalGastado', ascending=False)</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code13', 'out13')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out13"></div>
+                <p class="mt-2"><small>Ordena el DataFrame por la columna <code>TotalGastado</code> de mayor a menor.</small></p>
+            </section>
+
+            <section class="topic-section slide" style="display:none;" id="agrupacion">
+                <h2 class="topic-title">14. Agrupación Básica con <code>.groupby()</code></h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Agrupa el DataFrame por una o más columnas y permite aplicar funciones de agregación.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df.groupby('columna')['otra_col'].mean()</code><br>
+                    <b>Parámetros principales:</b>
+                    <ul>
+                        <li>Columnas para agrupar.</li>
+                        <li>Función de agregación (<code>mean()</code>, <code>sum()</code>, etc.).</li>
+                    </ul>
+                </div>
+                <textarea class="code-block" id="code14" rows="2">df.groupby('Ciudad')['TotalGastado'].mean()</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code14', 'out14')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out14"></div>
+                <p class="mt-2"><small>Calcula el promedio de <code>TotalGastado</code> por ciudad.</small></p>
+            </section>
+
+            <section class="topic-section slide" style="display:none;" id="filtrado-string">
+                <h2 class="topic-title">15. Filtrado Básico con Strings</h2>
+                <div class="mb-2">
+                    <b>¿Para qué sirve?</b> Filtra filas donde una columna de texto contiene una subcadena.<br>
+                    <b>¿Cómo se utiliza?</b> <code>df[df['columna'].str.contains('texto')]</code><br>
+                    <b>Parámetros principales:</b>
+                    <ul>
+                        <li>Subcadena a buscar.</li>
+                        <li><b>case</b>: Sensible a mayúsculas/minúsculas (<code>True</code>/<code>False</code>).</li>
+                        <li><b>na</b>: Cómo tratar valores nulos.</li>
+                    </ul>
+                </div>
+                <textarea class="code-block" id="code15" rows="2">df[df['Nombre'].str.contains('Ana')]</textarea>
+                <button class="btn btn-success mt-2" onclick="runCode(this, 'code15', 'out15')">▶ Ejecutar Código</button>
+                <div class="output-block" id="out15"></div>
+                <p class="mt-2"><small>Filtra filas donde la columna <code>Nombre</code> contiene la cadena "Ana".</small></p>
+            </section>
+
+            <section class="topic-section slide" style="display:none;" id="resumen-exploracion">
+                <h2 class="topic-title">Resumen de la Exploración Inicial</h2>
                 <ul>
-                    <li><b>by</b>: Nombre(s) de columna(s) para ordenar.</li>
-                    <li><b>ascending</b>: Orden ascendente (<code>True</code>) o descendente (<code>False</code>).</li>
+                    <li>Visualizaste las primeras y últimas filas para obtener una idea general de los datos.</li>
+                    <li>Revisaste dimensiones, nombres y tipos de columnas.</li>
+                    <li>Aplicaste filtros y seleccionaste columnas específicas.</li>
+                    <li>Realizaste cálculos y agrupaciones básicas.</li>
+                    <li>Aprendiste a seleccionar datos por etiquetas y posiciones.</li>
                 </ul>
-            </div>
-            <textarea class="code-block" id="code13" rows="2">df.sort_values(by='TotalGastado', ascending=False)</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code13', 'out13')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out13"></div>
-            <p class="mt-2"><small>Ordena el DataFrame por la columna <code>TotalGastado</code> de mayor a menor.</small></p>
-        </section>
+                <p>Esta información inicial es crucial y guía los siguientes pasos de limpieza y preparación de datos.</p>
+            </section>
 
-        <section class="topic-section" id="agrupacion">
-            <h2 class="topic-title">14. Agrupación Básica con <code>.groupby()</code></h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Agrupa el DataFrame por una o más columnas y permite aplicar funciones de agregación.<br>
-                <b>¿Cómo se utiliza?</b> <code>df.groupby('columna')['otra_col'].mean()</code><br>
-                <b>Parámetros principales:</b>
+            <section class="topic-section slide" style="display:none;" id="proximos-pasos">
+                <h2 class="topic-title">Próximos Pasos en la Preparación de Datos</h2>
                 <ul>
-                    <li>Columnas para agrupar.</li>
-                    <li>Función de agregación (<code>mean()</code>, <code>sum()</code>, etc.).</li>
+                    <li><b>Identificación y Tratamiento de Outliers:</b> Buscar valores atípicos que puedan distorsionar análisis o modelos, y decidir cómo tratarlos.</li>
+                    <li><b>Manejo de Valores Faltantes:</b> Identificar y tratar valores nulos o vacíos.</li>
+                    <li><b>Conversión de Tipos de Datos:</b> Asegurarse de que cada columna tenga el tipo de dato adecuado.</li>
+                    <li><b>Creación de Nuevas Variables:</b> Generar columnas derivadas para análisis más profundos.</li>
                 </ul>
-            </div>
-            <textarea class="code-block" id="code14" rows="2">df.groupby('Ciudad')['TotalGastado'].mean()</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code14', 'out14')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out14"></div>
-            <p class="mt-2"><small>Calcula el promedio de <code>TotalGastado</code> por ciudad.</small></p>
-        </section>
+                <p>¡Te animamos a practicar estos comandos básicos con el archivo CSV proporcionado y observar los resultados detalladamente!</p>
+            </section>
 
-        <section class="topic-section" id="filtrado-string">
-            <h2 class="topic-title">15. Filtrado Básico con Strings</h2>
-            <div class="mb-2">
-                <b>¿Para qué sirve?</b> Filtra filas donde una columna de texto contiene una subcadena.<br>
-                <b>¿Cómo se utiliza?</b> <code>df[df['columna'].str.contains('texto')]</code><br>
-                <b>Parámetros principales:</b>
+            <section class="topic-section slide" style="display:none;" id="preguntas">
+                <h2 class="topic-title">Preguntas y Discusión</h2>
                 <ul>
-                    <li>Subcadena a buscar.</li>
-                    <li><b>case</b>: Sensible a mayúsculas/minúsculas (<code>True</code>/<code>False</code>).</li>
-                    <li><b>na</b>: Cómo tratar valores nulos.</li>
+                    <li>¿Alguna pregunta sobre los comandos de Pandas utilizados o su salida?</li>
+                    <li>¿Cómo interpretarías los resultados de <code>.info()</code> o <code>.describe(include='all')</code> en diferentes escenarios de datos?</li>
+                    <li>¿Hay algún aspecto de la carga o exploración inicial que no haya quedado claro o sobre el que quieras profundizar?</li>
                 </ul>
-            </div>
-            <textarea class="code-block" id="code15" rows="2">df[df['Nombre'].str.contains('Ana')]</textarea>
-            <button class="btn btn-success mt-2" onclick="runCode(this, 'code15', 'out15')">▶ Ejecutar Código</button>
-            <div class="output-block" id="out15"></div>
-            <p class="mt-2"><small>Filtra filas donde la columna <code>Nombre</code> contiene la cadena "Ana".</small></p>
-        </section>
+            </section>
+        </div>
 
-        <section class="topic-section" id="resumen-exploracion">
-            <h2 class="topic-title">Resumen de la Exploración Inicial</h2>
-            <ul>
-                <li>Visualizaste las primeras y últimas filas para obtener una idea general de los datos.</li>
-                <li>Revisaste dimensiones, nombres y tipos de columnas.</li>
-                <li>Aplicaste filtros y seleccionaste columnas específicas.</li>
-                <li>Realizaste cálculos y agrupaciones básicas.</li>
-                <li>Aprendiste a seleccionar datos por etiquetas y posiciones.</li>
-            </ul>
-            <p>Esta información inicial es crucial y guía los siguientes pasos de limpieza y preparación de datos.</p>
-        </section>
-
-        <section class="topic-section" id="proximos-pasos">
-            <h2 class="topic-title">Próximos Pasos en la Preparación de Datos</h2>
-            <ul>
-                <li><b>Identificación y Tratamiento de Outliers:</b> Buscar valores atípicos que puedan distorsionar análisis o modelos, y decidir cómo tratarlos.</li>
-                <li><b>Manejo de Valores Faltantes:</b> Identificar y tratar valores nulos o vacíos.</li>
-                <li><b>Conversión de Tipos de Datos:</b> Asegurarse de que cada columna tenga el tipo de dato adecuado.</li>
-                <li><b>Creación de Nuevas Variables:</b> Generar columnas derivadas para análisis más profundos.</li>
-            </ul>
-            <p>¡Te animamos a practicar estos comandos básicos con el archivo CSV proporcionado y observar los resultados detalladamente!</p>
-        </section>
-
-        <section class="topic-section" id="preguntas">
-            <h2 class="topic-title">Preguntas y Discusión</h2>
-            <ul>
-                <li>¿Alguna pregunta sobre los comandos de Pandas utilizados o su salida?</li>
-                <li>¿Cómo interpretarías los resultados de <code>.info()</code> o <code>.describe(include='all')</code> en diferentes escenarios de datos?</li>
-                <li>¿Hay algún aspecto de la carga o exploración inicial que no haya quedado claro o sobre el que quieras profundizar?</li>
-            </ul>
-        </section>
+        <div class="d-flex justify-content-between mt-4">
+            <button id="prevBtn" class="btn btn-outline-primary" disabled>Anterior</button>
+            <button id="nextBtn" class="btn btn-primary">Siguiente</button>
+        </div>
 
         <footer class="footer">
             &copy; 2025 ECBD | Sistema de clases dinámicas
         </footer>
     </div> <!-- end content-wrapper -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.style.display = (i === idx) ? 'block' : 'none';
+            });
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === slides.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+        // Inicializar
+        showSlide(currentSlide);
+    </script>
 </body>
 </html>

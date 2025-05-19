@@ -16,6 +16,9 @@ def landing(request):
 def clase_carga_exploracion(request):
     return render(request, 'clases/clase_carga_exploracion.html')
 
+def clase_tipos_fuentes_datos(request):
+    return render(request, 'clases/clase_tipos_fuentes_datos.html')
+
 @csrf_exempt
 def ejecutar_codigo(request):
     if request.method == 'POST':
