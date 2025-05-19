@@ -88,3 +88,6 @@ def ejecutar_codigo(request):
 
 def clase_data_warehouse(request):
     return render(request, 'clases/clase_data_warehouse.html')
+
+def clase_diseno_dw_libreria(request):
+    return render(request, 'clases/clase_diseno_dw_libreria.html')
