@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase Interactiva: Limpieza de Datos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        .content-wrapper { max-width: 950px; margin: 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.07); padding: 2rem; }
+        .slide { display: none; }
+        .slide.active { display: block; }
+        .topic-title { color: #0d6efd; font-size: 2rem; font-weight: 600; margin-bottom: 1.2rem; }
+        .code-block { background: #282c34; color: #abb2bf; border-radius: 6px; padding: 1rem 1.5rem; font-size: 1rem; font-family: 'Fira Code', 'Consolas', 'Share Tech Mono', monospace; width: 100%; overflow-x: auto; border: 1px solid #3d424a; line-height: 1.5; }
+        .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #eee; color: #6c757d; font-size: 0.9rem; text-align: center; }
+        .btn-nav { min-width: 120px; }
+        .ejercicio-box { background: #e3f2fd; border-radius: 8px; padding: 1rem 1.5rem; margin-top: 1.5rem; }
+        .output-box { background: #212529; color: #e9ecef; border-radius: 6px; padding: 1rem; margin-top: 1rem; font-family: 'Fira Code', monospace; font-size: 1rem; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container content-wrapper">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Clase: Limpieza de Datos</li>
+            </ol>
+        </nav>
+        <h1 class="mb-4">Limpieza de Datos: Técnicas y Práctica Interactiva</h1>
+        <div id="slide-container">
+            <!-- Diapositiva 1: Introducción -->
+            <section class="slide active">
+                <h2 class="topic-title">¿Por qué es importante limpiar los datos?</h2>
+                <ul>
+                    <li>La calidad de los datos afecta directamente la calidad de los análisis y decisiones.</li>
+                    <li>Los datos reales suelen tener errores, valores faltantes, inconsistencias y formatos incorrectos.</li>
+                    <li>La limpieza de datos es el primer paso para obtener información confiable.</li>
+                </ul>
+                <p class="mt-3"><b>Ejemplo de dataset real:</b></p>
+                <div class="code-block" style="font-size:0.95rem;">
+ProductID,ProductName,Category,Price,Stock,DateAdded,SupplierID
+P001,Laptop Pro X,Electronics,"$1,250.00",15,2023-01-15,S10
+P002,Teclado Mecánico,Accesorios," $75.50 ",25,2023-01-20,S20
+P003,Monitor Curvo 27",Electronics,350.00,10,2023-02-01,S10
+P004,Mouse Gamer RGB,Accesorios,45.99,50,2023-02-10,S30
+P005,Silla Ergonómica, Muebles ,220.00,,2023-03-05,S40
+P006,Webcam HD Pro,Accesorios,65.00,30,2023-03-15,S20
+P001,Laptop Pro X,Electronics,"$1,250.00",15,2023-01-15,S10
+P007,SSD Externo 1TB,Almacenamiento,110.50,22,2023-04-01,S30
+P008,Auriculares BT Pro,Accesorios,,40,2023-04-12,S20
+P009,Mesa Escritorio,Muebles,180.00,8,2023-05-02,S40
+P010,Impresora Laser,Impresoras," $210.99 ",12,2023-05-18,S50
+P011,Smartphone Lite,electronics,499.99,18,2023-06-01,S10
+P012,Foco Inteligente,Hogar Inteligente,15.50,100,2023-06-10,S60
+P013,Router WiFi 6,Redes,95.00,28,2023-07-03,S30
+P014,Tablet Basic 10",Electronics,199.99,20,2023-07-21,S10
+P015,Smartwatch Fit,Wearables,130.00,35,2023-08-05,S20
+P016,Power Bank 20k,Accesorios,49.99,60,2023-08-19,S30
+P017,Cafetera Express,Hogar Inteligente,NaN,5,2023-09-01,S60
+P018,Disco Duro 4TB,Almacenamiento,140.00,14,2023-09-14,S30
+P019,Silla Ergonómica, Muebles ,220.00,7,2023-03-05,S40
+P020,Monitor Curvo 27",Electronics,350.00,9,2023-02-01,S10
+P021,Teclado Mecánico,Accesorios,75.50,24,2023-01-20,S20
+P022,Producto Fantasma,Desconocido,9999.99,1,2024-01-01,S99
+                </div>
+                <div class="ejercicio-box">
+                    <b>Pregunta para ti:</b> ¿Qué problemas de calidad de datos puedes identificar en este dataset? <br>
+                    <input type="text" class="form-control mt-2" id="input-problemas" placeholder="Escribe tu respuesta aquí...">
+                    <button class="btn btn-primary mt-2" onclick="mostrarSugerencia()">Ver sugerencia</button>
+                    <div id="sugerencia-problemas" class="mt-2" style="display:none;">
+                        <ul>
+                            <li>Valores nulos o vacíos</li>
+                            <li>Duplicados</li>
+                            <li>Outliers (precios muy altos)</li>
+                            <li>Errores de formato (espacios, símbolos, mayúsculas/minúsculas)</li>
+                            <li>Categorías inconsistentes</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <!-- Diapositiva 2: Valores nulos -->
+            <section class="slide">
+                <h2 class="topic-title">Técnica 1: Manejo de valores nulos</h2>
+                <ul>
+                    <li>Los valores nulos pueden distorsionar análisis y modelos.</li>
+                    <li>Opciones: eliminar filas, imputar valores, dejar nulo si tiene sentido.</li>
+                </ul>
+                <h5 class="mt-4">Funciones clave de pandas para valores nulos</h5>
+                <div class="code-block">df.isnull()  # Devuelve un DataFrame booleano indicando valores nulos
+
+df["Stock"].isnull().sum()  # Cuenta valores nulos en la columna Stock
+
+df.dropna(subset=["Stock"])  # Elimina filas donde Stock es nulo
+
+df.fillna(0)  # Rellena valores nulos con 0</div>
+                <p class="mt-2">Estas funciones permiten identificar, contar, eliminar o reemplazar valores nulos en tus datos.</p>
+                <p><b>Ejemplo:</b> El campo <code>Stock</code> y <code>Price</code> tienen valores nulos.</p>
+                <div class="code-block">df["Stock"].isnull().sum()
+# Resultado: 1
+
+df["Price"].isnull().sum()
+# Resultado: 1</div>
+                <div class="ejercicio-box">
+                    <b>Actividad:</b> ¿Cómo eliminarías las filas con valores nulos en <code>Stock</code>?
+                    <textarea class="form-control mt-2" rows="2" id="codigo-nulos" placeholder="Escribe tu código aquí..."></textarea>
+                    <button class="btn btn-success mt-2" onclick="ejecutarCodigo('nulos')">Probar código</button>
+                    <div id="output-nulos" class="output-box" style="display:none;"></div>
+                </div>
+            </section>
+            <!-- Diapositiva 3: Detección de outliers -->
+            <section class="slide">
+                <h2 class="topic-title">Técnica 2: Detección y tratamiento de outliers</h2>
+                <ul>
+                    <li>Los outliers pueden afectar promedios y modelos.</li>
+                    <li>Opciones: analizar, eliminar, reemplazar o justificar su existencia.</li>
+                </ul>
+                <h5 class="mt-4">Funciones clave de pandas para outliers</h5>
+                <div class="code-block">df["Price"] = pd.to_numeric(df["Price"].replace({r"[^\\d\\.]": ""}, regex=True), errors='coerce')  # Limpia y convierte precios
+
+df["Price"].describe()  # Estadísticas descriptivas
+
+df[df["Price"] > 2000]  # Filtra outliers
+
+df = df[df["Price"] <= 2000]  # Elimina outliers</div>
+                <p class="mt-2">Estas funciones ayudan a identificar valores atípicos y decidir cómo tratarlos.</p>
+                <p><b>Ejemplo:</b> El producto "Producto Fantasma" tiene un precio atípico.</p>
+                <div class="code-block">df["Price"] = pd.to_numeric(df["Price"].replace({r"[^\\d\\.]": ""}, regex=True), errors='coerce')
+df["Price"].describe()</div>
+                <div class="ejercicio-box">
+                    <b>Actividad:</b> ¿Cómo eliminarías los productos con precio mayor a $2000?
+                    <textarea class="form-control mt-2" rows="2" id="codigo-outliers" placeholder="Escribe tu código aquí..."></textarea>
+                    <button class="btn btn-success mt-2" onclick="ejecutarCodigo('outliers')">Probar código</button>
+                    <div id="output-outliers" class="output-box" style="display:none;"></div>
+                </div>
+            </section>
+            <!-- Diapositiva 4: Corrección de formatos -->
+            <section class="slide">
+                <h2 class="topic-title">Técnica 3: Corrección de formatos</h2>
+                <ul>
+                    <li>Los formatos inconsistentes dificultan el análisis.</li>
+                    <li>Ejemplo: precios con símbolos, espacios, categorías con mayúsculas/minúsculas o espacios extra.</li>
+                </ul>
+                <h5 class="mt-4">Funciones clave de pandas para corrección de formatos</h5>
+                <div class="code-block">df["Price"] = df["Price"].replace({r"[^\\d\\.]": ""}, regex=True).astype(float)  # Quita símbolos y convierte a float
+
+df["Category"] = df["Category"].str.strip().str.title()  # Quita espacios y estandariza mayúsculas
+
+df["ProductName"] = df["ProductName"].str.strip()  # Quita espacios extra</div>
+                <p class="mt-2">Estas funciones permiten limpiar y estandarizar los formatos de los datos.</p>
+                <div class="code-block">df["Price"] = df["Price"].replace({r"[^\\d\\.]": ""}, regex=True).astype(float)
+df["Category"] = df["Category"].str.strip().str.title()</div>
+                <div class="ejercicio-box">
+                    <b>Actividad:</b> ¿Cómo dejar la columna <code>ProductName</code> sin espacios extra al inicio o final?
+                    <textarea class="form-control mt-2" rows="2" id="codigo-formatos" placeholder="Escribe tu código aquí..."></textarea>
+                    <button class="btn btn-success mt-2" onclick="ejecutarCodigo('formatos')">Probar código</button>
+                    <div id="output-formatos" class="output-box" style="display:none;"></div>
+                </div>
+            </section>
+            <!-- Diapositiva 5: Detección y manejo de duplicados -->
+            <section class="slide">
+                <h2 class="topic-title">Técnica 4: Detección y manejo de duplicados</h2>
+                <ul>
+                    <li>Los duplicados pueden inflar resultados y análisis.</li>
+                    <li>Opciones: eliminar duplicados, analizar por qué existen.</li>
+                </ul>
+                <h5 class="mt-4">Funciones clave de pandas para duplicados</h5>
+                <div class="code-block">df.duplicated()  # Devuelve un booleano por fila si es duplicada
+
+df.duplicated().sum()  # Cuenta duplicados
+
+df = df.drop_duplicates()  # Elimina duplicados</div>
+                <p class="mt-2">Estas funciones permiten identificar y eliminar filas duplicadas fácilmente.</p>
+                <div class="code-block">df.duplicated().sum()
+# Resultado: 1</div>
+                <div class="ejercicio-box">
+                    <b>Actividad:</b> ¿Cómo eliminarías los duplicados?
+                    <textarea class="form-control mt-2" rows="2" id="codigo-duplicados" placeholder="Escribe tu código aquí..."></textarea>
+                    <button class="btn btn-success mt-2" onclick="ejecutarCodigo('duplicados')">Probar código</button>
+                    <div id="output-duplicados" class="output-box" style="display:none;"></div>
+                </div>
+            </section>
+            <!-- Diapositiva 6: Cierre -->
+            <section class="slide">
+                <h2 class="topic-title">Conclusiones y Reflexión</h2>
+                <ul>
+                    <li>La limpieza de datos es esencial para análisis confiables.</li>
+                    <li>Existen múltiples técnicas según el problema.</li>
+                    <li>¡Practica y experimenta con tus propios datos!</li>
+                </ul>
+                <div class="ejercicio-box">
+                    <b>Pregunta final:</b> ¿Qué técnica te pareció más útil y por qué? <br>
+                    <input type="text" class="form-control mt-2" placeholder="Escribe tu reflexión aquí...">
+                </div>
+            </section>
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <button class="btn btn-secondary btn-nav" id="btn-prev" onclick="cambiarSlide(-1)" disabled>Anterior</button>
+            <button class="btn btn-primary btn-nav" id="btn-next" onclick="cambiarSlide(1)">Siguiente</button>
+        </div>
+        <footer class="footer">
+            &copy; 2025 ECBD | Clase interactiva de limpieza de datos
+        </footer>
+    </div>
+    <script>
+        // Navegación de diapositivas
+        let slideActual = 0;
+        const slides = document.querySelectorAll('.slide');
+        function mostrarSlide(idx) {
+            slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+            document.getElementById('btn-prev').disabled = idx === 0;
+            document.getElementById('btn-next').textContent = idx === slides.length - 1 ? 'Finalizar' : 'Siguiente';
+        }
+        function cambiarSlide(delta) {
+            if (slideActual + delta < 0 || slideActual + delta >= slides.length) return;
+            slideActual += delta;
+            mostrarSlide(slideActual);
+        }
+        mostrarSlide(slideActual);
+        // Sugerencia de problemas
+        function mostrarSugerencia() {
+            document.getElementById('sugerencia-problemas').style.display = 'block';
+        }
+        // Código de ejemplo para cada técnica
+        const ejemplos = {
+            nulos: 'df = pd.read_csv("/tmp/limpieza_datos.csv")\ndf = df.dropna(subset=["Stock"])\ndf.head()',
+            outliers: 'df = pd.read_csv("/tmp/limpieza_datos.csv")\ndf["Price"] = pd.to_numeric(df["Price"].replace({r"[^\\d\\.]": ""}, regex=True), errors="coerce")\ndf = df[df["Price"] <= 2000]\ndf.head()',
+            formatos: 'df = pd.read_csv("/tmp/limpieza_datos.csv")\ndf["ProductName"] = df["ProductName"].str.strip()\ndf.head()',
+            duplicados: 'df = pd.read_csv("/tmp/limpieza_datos.csv")\ndf = df.drop_duplicates()\ndf.head()'
+        };
+        // Ejecutar código interactivo
+        function ejecutarCodigo(tipo) {
+            const textarea = document.getElementById('codigo-' + tipo);
+            const outputDiv = document.getElementById('output-' + tipo);
+            let codigo = textarea.value.trim();
+            if (!codigo) codigo = ejemplos[tipo];
+            outputDiv.style.display = 'block';
+            outputDiv.textContent = 'Ejecutando...';
+            fetch('/ejecutar_codigo/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: codigo.replaceAll('\\n', '\n') })
+            })
+            .then(r => r.json())
+            .then(data => {
+                outputDiv.textContent = data.output;
+            })
+            .catch(() => {
+                outputDiv.textContent = 'Error al ejecutar el código.';
+            });
+        }
+    </script>
+</body>
+</html>

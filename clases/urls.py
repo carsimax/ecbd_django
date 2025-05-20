@@ -8,4 +8,5 @@ urlpatterns = [
     path('tipos-fuentes-datos/', views.clase_tipos_fuentes_datos, name='clase_tipos_fuentes_datos'),
     path('data-warehouse/', views.clase_data_warehouse, name='clase_data_warehouse'),
     path('caso-estudio-dw/', views.clase_caso_estudio_dw, name='clase_caso_estudio_dw'),
+    path('limpieza-datos/', views.clase_limpieza_de_datos, name='clase_limpieza_de_datos'),
 ]

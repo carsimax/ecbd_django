@@ -94,3 +94,6 @@ def clase_diseno_dw_libreria(request):
 
 def clase_caso_estudio_dw(request):
     return render(request, 'clases/clase_caso_de_Estudio_dw.html')
+
+def clase_limpieza_de_datos(request):
+    return render(request, 'clases/clase_limpieza_de_datos.html')
